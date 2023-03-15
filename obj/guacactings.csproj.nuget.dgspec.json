@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/clementlegay/Code/guacactings/guacactings.csproj": {}
+    "/Users/clementlegay/Code/dotnet/guacactings/guacactings.csproj": {}
   },
   "projects": {
-    "/Users/clementlegay/Code/guacactings/guacactings.csproj": {
+    "/Users/clementlegay/Code/dotnet/guacactings/guacactings.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/clementlegay/Code/guacactings/guacactings.csproj",
+        "projectUniqueName": "/Users/clementlegay/Code/dotnet/guacactings/guacactings.csproj",
         "projectName": "guacactings",
-        "projectPath": "/Users/clementlegay/Code/guacactings/guacactings.csproj",
+        "projectPath": "/Users/clementlegay/Code/dotnet/guacactings/guacactings.csproj",
         "packagesPath": "/Users/clementlegay/.nuget/packages/",
-        "outputPath": "/Users/clementlegay/Code/guacactings/obj/",
+        "outputPath": "/Users/clementlegay/Code/dotnet/guacactings/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/clementlegay/.nuget/NuGet/NuGet.Config"
@@ -41,6 +41,24 @@
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[7.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.0-preview.2.23128.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.0-preview.2.23128.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational": {
+              "target": "Package",
+              "version": "[8.0.0-preview.2.23128.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.0-preview.2.23128.3, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
