@@ -40,7 +40,7 @@ Replace "yourStrong(!)Password" with a strong password of your choice.
   },
   "AllowedHosts": "*",
   "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost,1433;Database=GuacActings;User=sa;Password=yourStrong(!)Password;"
+    "DefaultConnection": "Server=localhost;Database=guacactings;User=sa;Password=IveBeenPirated76!;TrustServerCertificate=true;MultipleActiveResultSets=True"
   }
 }
 ```

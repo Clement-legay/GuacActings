@@ -5,7 +5,7 @@
 namespace guacactings.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class FirstMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,9 +16,9 @@ namespace guacactings.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Street = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -31,11 +31,11 @@ namespace guacactings.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Firstname = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Lastname = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AddressId = table.Column<int>(type: "int", nullable: false)
+                    Firstname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Lastname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AddressId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -44,8 +44,7 @@ namespace guacactings.Migrations
                         name: "FK_employee_address_AddressId",
                         column: x => x.AddressId,
                         principalTable: "address",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
