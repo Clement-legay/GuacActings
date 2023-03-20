@@ -30,16 +30,41 @@ public class EmployeeController : ControllerBase
     /// </summary>
     /// <returns></returns>    
     [HttpGet(Name = "GetEmployees")]
-    public async Task<IEnumerable<Employee>> GetEmployees(int page = 0, int rows = 10)
+    public async Task<IActionResult> GetEmployees(int page = 1, int rows = 10)
     {
-        return await _employeeService.GetEmployees(page, rows);
+        var result = await _employeeService.GetEmployees(page, rows);
+        if (result is null)
+        {
+            return BadRequest();
+        }
+        
+        return Ok(result);
     }
 
     [HttpPost(Name = "AddEmployee")]
-    public async Task<Employee> AddEmployee(Employee employee)
+    public async Task<IActionResult> AddEmployee(EmployeeRegistryDto employee)
     {
-        return await _employeeService.AddEmployee(employee);
+        var result = await _employeeService.AddEmployee(employee);
+        if (result is null)
+        {
+            return BadRequest();
+        }
+        
+        return Ok(result);
     }
 
+    [HttpPut("{id:int}/update", Name = "UpdateEmployee")]
+    public async Task<IActionResult> UpdateEmployee(EmployeeUpdateDto employee, int id)
+    {
+        var result = await _employeeService.UpdateEmployee(employee, id);
+        if (result is null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(result);
+
+    }
+    
     #endregion
 }

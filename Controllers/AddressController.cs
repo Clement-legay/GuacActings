@@ -30,15 +30,40 @@ public class AddressController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet(Name = "GetAddresses")]
-    public async Task<IEnumerable<Address>> GetAddresses()
+    public async Task<IActionResult> GetAddresses(int page = 1, int rows = 10)
     {
-        return await _addressService.GetAddresses();
+        var result = await _addressService.GetAddresses(page, rows);
+        if (result is null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(result);
     }
 
     [HttpPost(Name = "AddAddress")]
-    public async Task<Address> AddAddress(Address address)
+    public async Task<IActionResult> AddAddress(AddressRegistryDto address)
     {
-        return await _addressService.AddAddress(address);
+        var result = await _addressService.AddAddress(address);
+        if (result is null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(result);
+    }
+
+    [HttpPut("{id:int}/update", Name = "UpdateAddress")]
+    public async Task<IActionResult> UpdateAddress(AddressRegistryDto address, int id)
+    {
+        var result = await _addressService.UpdateAddress(address, id);
+
+        if (result is null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(result);
     }
 
     #endregion

@@ -13,8 +13,5 @@ public class EmployeeEntityConfiguration : IEntityTypeConfiguration<Employee>
         
         // primary key
         builder.HasKey(item => item.Id);
-        
-        // foreign key
-        builder.HasOne(item => item.Address);
     }
 }
