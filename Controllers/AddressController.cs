@@ -41,6 +41,18 @@ public class AddressController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("{id:int}", Name = "GetAddressById")]
+    public async Task<IActionResult> GetAddressById(int id)
+    {
+        var result = await _addressService.GetAddressById(id);
+        if (result is null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(result);
+    }
+
     [HttpPost(Name = "AddAddress")]
     public async Task<IActionResult> AddAddress(AddressRegistryDto address)
     {
@@ -57,7 +69,18 @@ public class AddressController : ControllerBase
     public async Task<IActionResult> UpdateAddress(AddressRegistryDto address, int id)
     {
         var result = await _addressService.UpdateAddress(address, id);
+        if (result is null)
+        {
+            return BadRequest();
+        }
 
+        return Ok(result);
+    }
+
+    [HttpDelete("{id:int}/delete", Name = "DeleteAddress")]
+    public async Task<IActionResult> DeleteAddress(int id)
+    {
+        var result = await _addressService.DeleteAddress(id);
         if (result is null)
         {
             return BadRequest();

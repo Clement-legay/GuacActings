@@ -16,16 +16,10 @@ public class Employee
     public int? AddressId { get; set; }
 
     [ForeignKey("AddressId")]
-    [JsonIgnore]
     public Address? Address { get; set; }
     
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
-    
-    public Employee()
-    {
-        Address = new Address();
-    }
 }
 
 public class EmployeeRegistryDto

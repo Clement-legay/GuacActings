@@ -6,8 +6,12 @@ public interface IEmployeeService
 {
     // Get all employees
     Task<IEnumerable<Employee>> GetEmployees(int page, int rows);
+    // Get an employee by id
+    Task<Employee?> GetEmployeeById(int id);
     // Create a new employee
     Task<Employee?> AddEmployee(EmployeeRegistryDto employee);
     // Update an employee
     Task<Employee?> UpdateEmployee(EmployeeUpdateDto employee, int id);
+    // Delete an employee
+    Task<Employee?> DeleteEmployee(int id);
 }

@@ -30,6 +30,13 @@ public class EmployeeService : IEmployeeService
         var employeesPaged = employees.Skip((page - 1) * rows).Take(rows);
         return employeesPaged;
     }
+    
+    // Get an employee by id
+    public async Task<Employee?> GetEmployeeById(int id)
+    {
+        var employee = await _context.Employees.FindAsync(id);
+        return employee ?? null;
+    }
 
     public async Task<Employee?> AddEmployee(EmployeeRegistryDto employee)
     {
@@ -80,6 +87,19 @@ public class EmployeeService : IEmployeeService
         var updatedEmployee = _context.Employees.Update(updateEmployee).Entity;
         await _context.SaveChangesAsync();
         return updatedEmployee;
+    }
+
+    public async Task<Employee?> DeleteEmployee(int id)
+    {
+        var deleteEmployee = await _context.Employees.FindAsync(id);
+        if (deleteEmployee is null)
+        {
+            return null;
+        }
+
+        var deletedEmployee = _context.Employees.Remove(deleteEmployee).Entity;
+        await _context.SaveChangesAsync();
+        return deletedEmployee;
     }
 
     #endregion

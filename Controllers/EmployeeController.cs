@@ -41,6 +41,18 @@ public class EmployeeController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("{id:int}", Name = "GetEmployeeById")]
+    public async Task<IActionResult> GetEmployeeById(int id)
+    {
+        var result = await _employeeService.GetEmployeeById(id);
+        if (result is null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(result);
+    }
+
     [HttpPost(Name = "AddEmployee")]
     public async Task<IActionResult> AddEmployee(EmployeeRegistryDto employee)
     {
@@ -64,6 +76,18 @@ public class EmployeeController : ControllerBase
 
         return Ok(result);
 
+    }
+
+    [HttpDelete("{id:int}/delete", Name = "DeleteEmployee")]
+    public async Task<IActionResult> DeleteEmployee(int id)
+    {
+        var result = await _employeeService.DeleteEmployee(id);
+        if (result is null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(result);
     }
     
     #endregion

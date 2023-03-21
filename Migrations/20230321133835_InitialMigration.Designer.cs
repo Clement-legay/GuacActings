@@ -12,8 +12,8 @@ using guacactings.Context;
 namespace guacactings.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230320173936_added_rows_employee_and_address")]
-    partial class added_rows_employee_and_address
+    [Migration("20230321133835_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

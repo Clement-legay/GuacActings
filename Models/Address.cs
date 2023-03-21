@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace guacactings.Models;
@@ -14,14 +15,16 @@ public class Address
     
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
-
-    public Address()
-    {
-        Employees = new List<Employee>();
-    }
 }
 
 public class AddressRegistryDto
+{
+    [Required] public string? Street { get; set; }
+    [Required] public string? City { get; set; }
+    [Required] public string? PostalCode { get; set; }
+}
+
+public class AddressUpdateDto
 {
     public string? Street { get; set; }
     public string? City { get; set; }

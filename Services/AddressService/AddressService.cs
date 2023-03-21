@@ -24,12 +24,19 @@ public class AddressService : IAddressService
     
     #region Methods
     
-    // Get all employees
+    // Get all addresses
     public async Task<IEnumerable<Address>> GetAddresses(int page, int rows)
     {
         var addresses = await _context.Addresses.Include(a => a.Employees).ToListAsync();
         var addressesPaged =  addresses.Skip((page - 1) * rows).Take(rows);
         return addressesPaged;
+    }
+    
+    // Get an address by id
+    public async Task<Address> GetAddressById(int id)
+    {
+        var address = await _context.Addresses.FindAsync(id);
+        return address ?? null;
     }
     
     // Create a new address
@@ -76,6 +83,19 @@ public class AddressService : IAddressService
         var updatedAddress = _context.Addresses.Update(updateAddress).Entity;
         await _context.SaveChangesAsync();
         return updatedAddress;
+    }
+
+    public async Task<Address?> DeleteAddress(int id)
+    {
+        var deleteAddress = await _context.Addresses.FindAsync(id);
+        if (deleteAddress is null)
+        {
+            return null;
+        }
+
+        var deletedAddress = _context.Addresses.Remove(deleteAddress).Entity;
+        await _context.SaveChangesAsync();
+        return deletedAddress;
     }
 
     #endregion
