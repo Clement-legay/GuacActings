@@ -33,7 +33,7 @@ public class AddressService : IAddressService
     }
     
     // Get an address by id
-    public async Task<Address> GetAddressById(int id)
+    public async Task<Address?> GetAddressById(int id)
     {
         var address = await _context.Addresses.FindAsync(id);
         return address ?? null;

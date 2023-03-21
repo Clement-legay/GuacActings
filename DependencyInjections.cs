@@ -8,5 +8,7 @@ public static class DependencyInjections
     {
         services.AddScoped<IEmployeeService, EmployeeService>();
         services.AddScoped<IAddressService, AddressService>();
+        services.AddScoped<IDocumentTypeService, DocumentTypeService>();
+        services.AddScoped<IDocumentService, DocumentService>();
     }
 }
