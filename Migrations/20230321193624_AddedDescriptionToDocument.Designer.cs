@@ -12,8 +12,8 @@ using guacactings.Context;
 namespace guacactings.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230321143056_AddDocument")]
-    partial class AddDocument
+    [Migration("20230321193624_AddedDescriptionToDocument")]
+    partial class AddedDescriptionToDocument
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -61,6 +61,15 @@ namespace guacactings.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
 
+                    b.Property<string>("ContentType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("DocumentTypeId")
                         .HasColumnType("int");
 
@@ -72,6 +81,9 @@ namespace guacactings.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -90,8 +102,14 @@ namespace guacactings.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -100,16 +118,16 @@ namespace guacactings.Migrations
 
             modelBuilder.Entity("guacactings.Models.Employee", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("AddressId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("BirthDate")
+                    b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CreatedAt")
@@ -130,6 +148,9 @@ namespace guacactings.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
@@ -140,7 +161,7 @@ namespace guacactings.Migrations
             modelBuilder.Entity("guacactings.Models.Document", b =>
                 {
                     b.HasOne("guacactings.Models.DocumentType", "DocumentType")
-                        .WithMany("Documents")
+                        .WithMany()
                         .HasForeignKey("DocumentTypeId");
 
                     b.HasOne("guacactings.Models.Employee", "Employee")
@@ -164,11 +185,6 @@ namespace guacactings.Migrations
             modelBuilder.Entity("guacactings.Models.Address", b =>
                 {
                     b.Navigation("Employees");
-                });
-
-            modelBuilder.Entity("guacactings.Models.DocumentType", b =>
-                {
-                    b.Navigation("Documents");
                 });
 #pragma warning restore 612, 618
         }

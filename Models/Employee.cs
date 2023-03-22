@@ -6,20 +6,23 @@ namespace guacactings.Models;
 
 public class Employee
 {
-    public int? Id { get; set; }
+    public int Id { get; set; }
     public string? Firstname { get; set; }
     public string? Lastname { get; set; }
+    public string? Username { get; init; }
     public string? Email { get; set; }
     public string? Phone { get; set; }
-    public DateTime? BirthDate { get; set; }
-
+    public DateTime BirthDate { get; set; }
     public int? AddressId { get; set; }
-
-    [ForeignKey("AddressId")]
-    public Address? Address { get; set; }
-    
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
+    
+    [ForeignKey("AddressId")]
+    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Address? Address { get; set; }
+    
+    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ICollection<Document>? Documents { get; set; }
 }
 
 public class EmployeeRegistryDto

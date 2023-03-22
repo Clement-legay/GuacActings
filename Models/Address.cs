@@ -9,12 +9,11 @@ public class Address
     public string? Street { get; set; }
     public string? City { get; set; }
     public string? PostalCode { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
     
     [JsonIgnore]
     public ICollection<Employee>? Employees { get; set; }
-    
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
 }
 
 public class AddressRegistryDto

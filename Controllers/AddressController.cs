@@ -54,7 +54,7 @@ public class AddressController : ControllerBase
     }
 
     [HttpPost(Name = "AddAddress")]
-    public async Task<IActionResult> AddAddress(AddressRegistryDto address)
+    public async Task<IActionResult> AddAddress([FromForm] AddressRegistryDto address)
     {
         var result = await _addressService.AddAddress(address);
         if (result is null)
@@ -66,7 +66,7 @@ public class AddressController : ControllerBase
     }
 
     [HttpPut("{id:int}/update", Name = "UpdateAddress")]
-    public async Task<IActionResult> UpdateAddress(AddressRegistryDto address, int id)
+    public async Task<IActionResult> UpdateAddress([FromForm] AddressRegistryDto address, int id)
     {
         var result = await _addressService.UpdateAddress(address, id);
         if (result is null)

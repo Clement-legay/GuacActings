@@ -54,7 +54,7 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpPost(Name = "AddEmployee")]
-    public async Task<IActionResult> AddEmployee(EmployeeRegistryDto employee)
+    public async Task<IActionResult> AddEmployee([FromForm] EmployeeRegistryDto employee)
     {
         var result = await _employeeService.AddEmployee(employee);
         if (result is null)
@@ -66,7 +66,7 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpPut("{id:int}/update", Name = "UpdateEmployee")]
-    public async Task<IActionResult> UpdateEmployee(EmployeeUpdateDto employee, int id)
+    public async Task<IActionResult> UpdateEmployee([FromForm] EmployeeUpdateDto employee, int id)
     {
         var result = await _employeeService.UpdateEmployee(employee, id);
         if (result is null)

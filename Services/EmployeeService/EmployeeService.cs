@@ -40,16 +40,12 @@ public class EmployeeService : IEmployeeService
 
     public async Task<Employee?> AddEmployee(EmployeeRegistryDto employee)
     {
-        if (employee is null)
-        {
-            return null;
-        }
-        
-        Console.WriteLine(employee.AddressId);
+        var username = $"{employee.Firstname![0]}{employee.Lastname}{new Random().Next(1000, 9999)}";
         
         var newEmployee = new Employee {
             Firstname = employee.Firstname,
             Lastname = employee.Lastname,
+            Username = username,
             Phone = employee.Phone,
             Email = employee.Email,
             AddressId = employee.AddressId,

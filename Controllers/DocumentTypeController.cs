@@ -1,3 +1,4 @@
+using guacactings.Models;
 using guacactings.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,6 +30,18 @@ public class DocumentTypeController : ControllerBase
     public async Task<IActionResult> GetDocumentTypes(int page = 1, int rows = 10)
     {
         var result = await _documentTypeService.GetDocumentTypes(page, rows);
+        if (result is null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(result);
+    }
+
+    [HttpPost(Name = "AddDocumentType")]
+    public async Task<IActionResult> AddDocumentType([FromForm] DocumentTypeRegistryDto documentType)
+    {
+        var result = await _documentTypeService.AddDocumentType(documentType);
         if (result is null)
         {
             return BadRequest();
