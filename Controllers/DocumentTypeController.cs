@@ -37,7 +37,20 @@ public class DocumentTypeController : ControllerBase
 
         return Ok(result);
     }
+    
+    // Get document type by id
+    [HttpGet("{id:int}", Name = "GetDocumentTypeById")]
+    public async Task<IActionResult> GetDocumentTypeById(int id)
+    {
+        var result = await _documentTypeService.GetDocumentTypeById(id);
+        if (result is null)
+        {
+            return BadRequest();
+        }
 
+        return Ok(result);
+    }
+    
     [HttpPost(Name = "AddDocumentType")]
     public async Task<IActionResult> AddDocumentType([FromForm] DocumentTypeRegistryDto documentType)
     {
@@ -49,6 +62,33 @@ public class DocumentTypeController : ControllerBase
 
         return Ok(result);
     }
+    
+    // Get document type by id
+    [HttpPut("{id:int}/update", Name = "UpdateDocumentType")]
+    public async Task<IActionResult> UpdateDocumentType(DocumentTypeRegistryDto documentType, int id)
+    {
+        var result = await _documentTypeService.UpdateDocumentType(documentType, id);
+        if (result is null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(result);
+    }
+    
+    // Delete a document type
+    [HttpDelete("{id:int}/delete", Name = "DeleteDocumentType")]
+    public async Task<IActionResult> DeleteDocumentType(int id)
+    {
+        var result = await _documentTypeService.DeleteDocumentType(id);
+        if (result is null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(result);
+    }
+    
 
     #endregion
 }

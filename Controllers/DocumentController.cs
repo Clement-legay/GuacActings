@@ -83,6 +83,30 @@ public class DocumentController : ControllerBase
 
         return Ok(result);
     }
+    
+    [HttpPut("{id:int}", Name = "UpdateDocument")]
+    public async Task<IActionResult> UpdateDocument([FromForm] DocumentUpdateDto document, int id)
+    {
+        var result = await _documentService.UpdateDocument(document, id);
+        if (result is null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(result);
+    }
+    
+    [HttpDelete("{id:int}", Name = "DeleteDocument")]
+    public async Task<IActionResult> DeleteDocument(int id)
+    {
+        var result = await _documentService.DeleteDocument(id);
+        if (result is null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(result);
+    }
 
     #endregion
 }

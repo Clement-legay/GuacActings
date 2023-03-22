@@ -1,6 +1,7 @@
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using guacactings.Context;
 
 namespace guacactings.Models;
 
@@ -17,5 +18,17 @@ public class DocumentType
 
 public class DocumentTypeRegistryDto
 {
-    [Required] public string? Name { get; set; }
+    // unique name
+    [Required]
+    [UniqueName(ErrorMessage = "Ce type de document existe déjà.")]
+    public string? Name { get; set; }
+}
+
+public class UniqueNameAttribute : ValidationAttribute
+{
+    protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+    {
+        var context = (DataContext) validationContext.GetService(typeof(DataContext))!;
+        return context.DocumentTypes.Any(x => x.Name == (string?)value) ? new ValidationResult(ErrorMessage) : ValidationResult.Success;
+    }
 }

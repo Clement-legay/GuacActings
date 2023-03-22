@@ -30,8 +30,14 @@ public class DocumentRegistryDto
     public string? Name { get; set; }
     public string? Description { get; set; }
     [Required] public IFormFile? File { get; set; }
-    [Required] public int? EmployeeId { get; set; }
-    [Required] public int? DocumentTypeId { get; set; }
+    
+    [Required]
+    [ForeignKey("EmployeeId")]
+    public int? EmployeeId { get; set; }
+    
+    [Required] 
+    [ForeignKey("DocumentTypeId")]
+    public int? DocumentTypeId { get; set; }
 }
 
 public class DocumentUpdateDto
@@ -39,5 +45,7 @@ public class DocumentUpdateDto
     public string? Name { get; set; }
     public string? Description { get; set; }
     public IFormFile? File { get; set; }
+    
+    [ForeignKey("DocumentTypeId")]
     public int? DocumentTypeId { get; set; }
 }
