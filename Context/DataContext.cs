@@ -20,6 +20,8 @@ public class DataContext : DbContext
         modelBuilder.ApplyConfiguration(new AddressEntityConfiguration());
         modelBuilder.ApplyConfiguration(new DocumentTypeEntityConfiguration());
         modelBuilder.ApplyConfiguration(new DocumentEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new EnterpriseEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new SiteEntityConfiguration());
     }
     
     #region Properties
@@ -28,6 +30,8 @@ public class DataContext : DbContext
     public DbSet<Address> Addresses { get; set; }
     public DbSet<DocumentType> DocumentTypes { get; set; }
     public DbSet<Document> Documents { get; set; }
+    public DbSet<Enterprise> Enterprises { get; set; }
+    public DbSet<Site> Sites { get; set; }
 
     #endregion
 }

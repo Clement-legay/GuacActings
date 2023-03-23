@@ -10,5 +10,7 @@ public static class DependencyInjections
         services.AddScoped<IAddressService, AddressService>();
         services.AddScoped<IDocumentTypeService, DocumentTypeService>();
         services.AddScoped<IDocumentService, DocumentService>();
+        services.AddScoped<ISiteService, SiteService>();
+        services.AddScoped<IEnterpriseService, EnterpriseService>();
     }
 }
