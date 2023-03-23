@@ -22,6 +22,8 @@ public class DataContext : DbContext
         modelBuilder.ApplyConfiguration(new DocumentEntityConfiguration());
         modelBuilder.ApplyConfiguration(new EnterpriseEntityConfiguration());
         modelBuilder.ApplyConfiguration(new SiteEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new JobEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new JobOfferEntityConfiguration());
     }
     
     #region Properties
@@ -32,6 +34,8 @@ public class DataContext : DbContext
     public DbSet<Document> Documents { get; set; }
     public DbSet<Enterprise> Enterprises { get; set; }
     public DbSet<Site> Sites { get; set; }
+    public DbSet<Job> Jobs { get; set; }
+    public DbSet<JobOffer> JobOffers { get; set; }
 
     #endregion
 }
