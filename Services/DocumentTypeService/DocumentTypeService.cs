@@ -92,7 +92,7 @@ public class DocumentTypeService : IDocumentTypeService
                     // test directory exists from path
                     if (Directory.Exists(Path.GetDirectoryName(oldDirectory)))
                     {
-                        Directory.Move(Path.GetDirectoryName(oldDirectory), Path.GetDirectoryName(newDirectory));
+                        Directory.Move(Path.GetDirectoryName(oldDirectory)!, Path.GetDirectoryName(newDirectory)!);
                     }
 
                     if (File.Exists(newPath))

@@ -143,7 +143,7 @@ public class DocumentService : IDocumentService
         }
         
         var link = document.Link;
-        var path = Path.Combine(Directory.GetCurrentDirectory(), link);
+        var path = Path.Combine(Directory.GetCurrentDirectory(), link!);
         File.Delete(path);
         if (Directory.GetFiles(Path.GetDirectoryName(path)!).Length == 0)
         {

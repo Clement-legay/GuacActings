@@ -65,7 +65,7 @@ public class DocumentTypeController : ControllerBase
     
     // Get document type by id
     [HttpPut("{id:int}/update", Name = "UpdateDocumentType")]
-    public async Task<IActionResult> UpdateDocumentType(DocumentTypeRegistryDto documentType, int id)
+    public async Task<IActionResult> UpdateDocumentType([FromForm] DocumentTypeRegistryDto documentType, int id)
     {
         var result = await _documentTypeService.UpdateDocumentType(documentType, id);
         if (result is null)
