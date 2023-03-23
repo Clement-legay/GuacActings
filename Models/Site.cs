@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
@@ -22,4 +23,29 @@ public class Site
     
     [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Enterprise? Enterprise { get; set; }
+}
+
+public class SiteRegistryDto
+{
+    [Required] public string? Name { get; set; }
+    [Required] public string? Description { get; set; }
+    
+    [ForeignKey("AddressId")]
+    public int? AddressId { get; set; }
+    
+    [Required]
+    [ForeignKey("EnterpriseId")]
+    public int? EnterpriseId { get; set; }
+}
+
+public class SiteUpdateDto
+{
+    public string? Name { get; set; }
+    public string? Description { get; set; }
+    
+    [ForeignKey("AddressId")]
+    public int? AddressId { get; set; }
+    
+    [ForeignKey("EnterpriseId")]
+    public int? EnterpriseId { get; set; }
 }
