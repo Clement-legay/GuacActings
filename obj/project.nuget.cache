@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "y4WO/MR3GJ2YiA3Hhqasz02eEVBrHl3+g/yGZ+BAP6lNNLdkUjYj5AVws+CchFrL6WE5hRyb3xEePin8sKsEqA==",
+  "dgSpecHash": "/TdYYtBCBvT80TYsBpm/lrZi7m/xz8bKi5I2cZmx7EDYrDZgGsUSnfOuv0Ie/nKWnhiAj6PbR3Ct9ZDfJiG5Eg==",
   "success": true,
   "projectFilePath": "/Users/clementlegay/Code/dotnet/guacactings/guacactings.csproj",
   "expectedPackageFiles": [
     "/Users/clementlegay/.nuget/packages/azure.core/1.25.0/azure.core.1.25.0.nupkg.sha512",
     "/Users/clementlegay/.nuget/packages/azure.identity/1.7.0/azure.identity.1.7.0.nupkg.sha512",
     "/Users/clementlegay/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
+    "/Users/clementlegay/.nuget/packages/microsoft.aspnetcore.mvc.versioning/5.0.0/microsoft.aspnetcore.mvc.versioning.5.0.0.nupkg.sha512",
     "/Users/clementlegay/.nuget/packages/microsoft.aspnetcore.openapi/7.0.0/microsoft.aspnetcore.openapi.7.0.0.nupkg.sha512",
     "/Users/clementlegay/.nuget/packages/microsoft.bcl.asyncinterfaces/1.1.1/microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "/Users/clementlegay/.nuget/packages/microsoft.csharp/4.5.0/microsoft.csharp.4.5.0.nupkg.sha512",

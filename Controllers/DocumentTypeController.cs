@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace guacactings.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/v{version:apiVersion}/document-type")]
+[ApiVersion("1")]
 public class DocumentTypeController : ControllerBase
 {
     #region Fields

@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace guacactings.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/v{version:apiVersion}/document")]
+[ApiVersion("1")]
 public class DocumentController : ControllerBase
 {
     #region Fields
@@ -51,7 +52,7 @@ public class DocumentController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("files/{employee}/{docType}/{fileName}", Name = "GetDocumentFile")]
+    [HttpGet("{employee}/{docType}/{fileName}", Name = "GetDocumentFile")]
     [ApiExplorerSettings(IgnoreApi = true)]
     public async Task<IActionResult> GetDocumentFile(string employee, string docType, string fileName)
     {
@@ -69,6 +70,7 @@ public class DocumentController : ControllerBase
             FileName = document.Name + "." + document.ContentType!.Split("/")[1]
         };
         Response.Headers.Add("Content-Disposition", contentDisposition.ToString());
+        HttpContext.Response.Headers["Title"] = document.Name;
         return PhysicalFile(filePath, document.ContentType!);
     }
 

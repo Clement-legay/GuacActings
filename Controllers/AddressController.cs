@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace guacactings.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/v{version:apiVersion}/address")]
+[ApiVersion("1")]
 public class AddressController : ControllerBase
 {
     #region Fields
@@ -30,6 +31,7 @@ public class AddressController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet(Name = "GetAddresses")]
+    // [OperationId("GetAddresses")]
     public async Task<IActionResult> GetAddresses(int page = 1, int rows = 10)
     {
         var result = await _addressService.GetAddresses(page, rows);

@@ -17,12 +17,6 @@ public class Site
     
     [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Address? Address { get; set; }
-    
-    [ForeignKey("EnterpriseId")]
-    public int? EnterpriseId { get; set; }
-    
-    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Enterprise? Enterprise { get; set; }
 }
 
 public class SiteRegistryDto
@@ -32,10 +26,6 @@ public class SiteRegistryDto
     
     [ForeignKey("AddressId")]
     public int? AddressId { get; set; }
-    
-    [Required]
-    [ForeignKey("EnterpriseId")]
-    public int? EnterpriseId { get; set; }
 }
 
 public class SiteUpdateDto
@@ -45,7 +35,4 @@ public class SiteUpdateDto
     
     [ForeignKey("AddressId")]
     public int? AddressId { get; set; }
-    
-    [ForeignKey("EnterpriseId")]
-    public int? EnterpriseId { get; set; }
 }

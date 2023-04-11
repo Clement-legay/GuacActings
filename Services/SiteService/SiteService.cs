@@ -44,8 +44,7 @@ public class SiteService : ISiteService
         var newSite = new Site()
         {
             Name = site.Name,
-            Description = site.Description,
-            EnterpriseId = site.EnterpriseId,
+            Description = site.Description, 
             AddressId = site.AddressId,
             CreatedAt = DateTime.Now,
             UpdatedAt = DateTime.Now
@@ -64,7 +63,6 @@ public class SiteService : ISiteService
 
         updateSite.Name = site.Name ?? updateSite.Name;
         updateSite.Description = site.Description ?? updateSite.Description;
-        updateSite.EnterpriseId = site.EnterpriseId ?? updateSite.EnterpriseId;
         updateSite.AddressId = site.AddressId ?? updateSite.AddressId;
         updateSite.UpdatedAt = DateTime.Now;
         

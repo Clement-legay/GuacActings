@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace guacactings.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/v{version:apiVersion}/site")]
+[ApiVersion("1")]
 public class SiteController : ControllerBase
 {
     #region Fields

@@ -12,8 +12,11 @@ public class Employee
     public string? Username { get; init; }
     public string? Email { get; set; }
     public string? Phone { get; set; }
+    public string? HomePhone { get; set; }
     public DateTime BirthDate { get; set; }
     public int? AddressId { get; set; }
+    public int? ServiceId { get; set; }
+    public int? SiteId { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
     
@@ -23,6 +26,14 @@ public class Employee
     
     [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ICollection<Document>? Documents { get; set; }
+    
+    [ForeignKey("ServiceId")]
+    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Service? Service { get; set; }
+    
+    [ForeignKey("SiteId")]
+    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Site? Site { get; set; }
 }
 
 public class EmployeeRegistryDto
@@ -32,7 +43,16 @@ public class EmployeeRegistryDto
     [Required] public string? Email { get; set; }
     [Required] public DateTime BirthDate { get; set; }
     public string? Phone { get; set; }
+    public string? HomePhone { get; set; }
+    
+    [ForeignKey("AddressId")]
     public int? AddressId { get; set; }
+    
+    [ForeignKey("ServiceId")]
+    public int? ServiceId { get; set; }
+    
+    [ForeignKey("SiteId")]
+    public int? SiteId { get; set; }
 }
 
 public class EmployeeUpdateDto
@@ -42,5 +62,14 @@ public class EmployeeUpdateDto
     public string? Email { get; set; }
     public DateTime? BirthDate { get; set; }
     public string? Phone { get; set; }
+    public string? HomePhone { get; set; }
+    
+    [ForeignKey("AddressId")]
     public int? AddressId { get; set; }
+    
+    [ForeignKey("ServiceId")]
+    public int? ServiceId { get; set; }
+    
+    [ForeignKey("SiteId")]
+    public int? SiteId { get; set; }
 }

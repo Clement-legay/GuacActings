@@ -11,8 +11,6 @@ public static class DependencyInjections
         services.AddScoped<IDocumentTypeService, DocumentTypeService>();
         services.AddScoped<IDocumentService, DocumentService>();
         services.AddScoped<ISiteService, SiteService>();
-        services.AddScoped<IEnterpriseService, EnterpriseService>();
-        services.AddScoped<IJobService, JobService>();
-        services.AddScoped<IJobOfferService, JobOfferService>();
+        services.AddScoped<IServiceService, ServiceService>();
     }
 }

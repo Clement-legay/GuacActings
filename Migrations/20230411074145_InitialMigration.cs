@@ -44,6 +44,44 @@ namespace guacactings.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "service",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_service", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "site",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AddressId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_site", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_site_address_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "address",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "employee",
                 columns: table => new
                 {
@@ -51,10 +89,14 @@ namespace guacactings.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Firstname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Lastname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HomePhone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AddressId = table.Column<int>(type: "int", nullable: true),
+                    ServiceId = table.Column<int>(type: "int", nullable: true),
+                    SiteId = table.Column<int>(type: "int", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -66,6 +108,16 @@ namespace guacactings.Migrations
                         column: x => x.AddressId,
                         principalTable: "address",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_employee_service_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "service",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_employee_site_SiteId",
+                        column: x => x.SiteId,
+                        principalTable: "site",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -75,6 +127,7 @@ namespace guacactings.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ContentType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Link = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DocumentTypeId = table.Column<int>(type: "int", nullable: true),
@@ -111,6 +164,21 @@ namespace guacactings.Migrations
                 name: "IX_employee_AddressId",
                 table: "employee",
                 column: "AddressId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_employee_ServiceId",
+                table: "employee",
+                column: "ServiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_employee_SiteId",
+                table: "employee",
+                column: "SiteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_site_AddressId",
+                table: "site",
+                column: "AddressId");
         }
 
         /// <inheritdoc />
@@ -124,6 +192,12 @@ namespace guacactings.Migrations
 
             migrationBuilder.DropTable(
                 name: "employee");
+
+            migrationBuilder.DropTable(
+                name: "service");
+
+            migrationBuilder.DropTable(
+                name: "site");
 
             migrationBuilder.DropTable(
                 name: "address");

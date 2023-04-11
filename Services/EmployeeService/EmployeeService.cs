@@ -47,9 +47,12 @@ public class EmployeeService : IEmployeeService
             Lastname = employee.Lastname,
             Username = username,
             Phone = employee.Phone,
+            HomePhone = employee.HomePhone,
             Email = employee.Email,
             AddressId = employee.AddressId,
             BirthDate = employee.BirthDate,
+            ServiceId = employee.ServiceId,
+            SiteId = employee.SiteId,
             CreatedAt = DateTime.Now,
             UpdatedAt = DateTime.Now,
         };
@@ -73,9 +76,12 @@ public class EmployeeService : IEmployeeService
         }
 
         updateEmployee.AddressId = employee.AddressId ?? updateEmployee.AddressId;
+        updateEmployee.ServiceId = employee.ServiceId ?? updateEmployee.ServiceId;
+        updateEmployee.SiteId = employee.SiteId ?? updateEmployee.SiteId;
         updateEmployee.Firstname = employee.Firstname ?? updateEmployee.Firstname;
         updateEmployee.Lastname = employee.Lastname ?? updateEmployee.Lastname;
         updateEmployee.Phone = employee.Phone ?? updateEmployee.Phone;
+        updateEmployee.HomePhone = employee.HomePhone ?? updateEmployee.HomePhone;
         updateEmployee.Email = employee.Email ?? updateEmployee.Email;
         updateEmployee.BirthDate = employee.BirthDate ?? updateEmployee.BirthDate;
         updateEmployee.UpdatedAt = DateTime.Now;

@@ -12,8 +12,8 @@ using guacactings.Context;
 namespace guacactings.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230323095730_NewFieldsOnEnterpriseModel")]
-    partial class NewFieldsOnEnterpriseModel
+    [Migration("20230411074145_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -139,11 +139,20 @@ namespace guacactings.Migrations
                     b.Property<string>("Firstname")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("HomePhone")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Lastname")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SiteId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -155,19 +164,20 @@ namespace guacactings.Migrations
 
                     b.HasIndex("AddressId");
 
+                    b.HasIndex("ServiceId");
+
+                    b.HasIndex("SiteId");
+
                     b.ToTable("employee", (string)null);
                 });
 
-            modelBuilder.Entity("guacactings.Models.Enterprise", b =>
+            modelBuilder.Entity("guacactings.Models.Service", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
-
-                    b.Property<int?>("AddressId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -175,16 +185,7 @@ namespace guacactings.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Siret")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -192,9 +193,7 @@ namespace guacactings.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId");
-
-                    b.ToTable("enterprise", (string)null);
+                    b.ToTable("service", (string)null);
                 });
 
             modelBuilder.Entity("guacactings.Models.Site", b =>
@@ -214,9 +213,6 @@ namespace guacactings.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("EnterpriseId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -226,8 +222,6 @@ namespace guacactings.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
-
-                    b.HasIndex("EnterpriseId");
 
                     b.ToTable("site", (string)null);
                 });
@@ -253,16 +247,19 @@ namespace guacactings.Migrations
                         .WithMany("Employees")
                         .HasForeignKey("AddressId");
 
-                    b.Navigation("Address");
-                });
-
-            modelBuilder.Entity("guacactings.Models.Enterprise", b =>
-                {
-                    b.HasOne("guacactings.Models.Address", "Address")
+                    b.HasOne("guacactings.Models.Service", "Service")
                         .WithMany()
-                        .HasForeignKey("AddressId");
+                        .HasForeignKey("ServiceId");
+
+                    b.HasOne("guacactings.Models.Site", "Site")
+                        .WithMany()
+                        .HasForeignKey("SiteId");
 
                     b.Navigation("Address");
+
+                    b.Navigation("Service");
+
+                    b.Navigation("Site");
                 });
 
             modelBuilder.Entity("guacactings.Models.Site", b =>
@@ -271,13 +268,7 @@ namespace guacactings.Migrations
                         .WithMany()
                         .HasForeignKey("AddressId");
 
-                    b.HasOne("guacactings.Models.Enterprise", "Enterprise")
-                        .WithMany("Sites")
-                        .HasForeignKey("EnterpriseId");
-
                     b.Navigation("Address");
-
-                    b.Navigation("Enterprise");
                 });
 
             modelBuilder.Entity("guacactings.Models.Address", b =>
@@ -293,11 +284,6 @@ namespace guacactings.Migrations
             modelBuilder.Entity("guacactings.Models.Employee", b =>
                 {
                     b.Navigation("Documents");
-                });
-
-            modelBuilder.Entity("guacactings.Models.Enterprise", b =>
-                {
-                    b.Navigation("Sites");
                 });
 #pragma warning restore 612, 618
         }
