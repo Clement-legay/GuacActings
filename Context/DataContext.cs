@@ -22,6 +22,7 @@ public class DataContext : DbContext
         modelBuilder.ApplyConfiguration(new DocumentEntityConfiguration());
         modelBuilder.ApplyConfiguration(new SiteEntityConfiguration());
         modelBuilder.ApplyConfiguration(new ServiceEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new AdministratorEntityConfiguration());
     }
     
     #region Properties
@@ -32,6 +33,7 @@ public class DataContext : DbContext
     public DbSet<Document> Documents { get; set; }
     public DbSet<Site> Sites { get; set; }
     public DbSet<Service> Services { get; set; }
+    public DbSet<Administrator> Administrators { get; set; }
 
     #endregion
 }

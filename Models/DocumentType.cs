@@ -11,8 +11,6 @@ public class DocumentType
     public string? Name { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
-    
-    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ICollection<Document>? Documents { get; set; }
 }
 

@@ -24,7 +24,6 @@ public class Employee
     [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Address? Address { get; set; }
     
-    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ICollection<Document>? Documents { get; set; }
     
     [ForeignKey("ServiceId")]

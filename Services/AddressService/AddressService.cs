@@ -27,7 +27,7 @@ public class AddressService : IAddressService
     // Get all addresses
     public async Task<IEnumerable<Address>> GetAddresses(int page, int rows)
     {
-        var addresses = await _context.Addresses.Include(a => a.Employees).ToListAsync();
+        var addresses = await _context.Addresses.ToListAsync();
         var addressesPaged =  addresses.Skip((page - 1) * rows).Take(rows);
         return addressesPaged;
     }

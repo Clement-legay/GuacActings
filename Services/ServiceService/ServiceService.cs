@@ -34,7 +34,7 @@ public class ServiceService : IServiceService
     // Get a service by id
     public async Task<Service?> GetServiceById(int id)
     {
-        var service = await _context.Services.FindAsync(id);
+        var service = await _context.Services.Include(s => s.Employees).FirstOrDefaultAsync(s => s.Id == id);
         return service ?? null;
     }
     

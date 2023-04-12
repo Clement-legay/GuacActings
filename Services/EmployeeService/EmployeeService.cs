@@ -26,7 +26,7 @@ public class EmployeeService : IEmployeeService
     // Get all employees
     public async Task<IEnumerable<Employee>> GetEmployees(int page = 1, int rows = 10)
     {
-        var employees = await _context.Employees.Include(e => e.Address).ToListAsync();
+        var employees = await _context.Employees.ToListAsync();
         var employeesPaged = employees.Skip((page - 1) * rows).Take(rows);
         return employeesPaged;
     }
@@ -34,7 +34,11 @@ public class EmployeeService : IEmployeeService
     // Get an employee by id
     public async Task<Employee?> GetEmployeeById(int id)
     {
-        var employee = await _context.Employees.FindAsync(id);
+        var employee = await _context.Employees
+            .Include(e => e.Address)
+            .Include(e => e.Service)
+            .Include(e => e.Site)
+            .FirstOrDefaultAsync(e => e.Id == id);
         return employee ?? null;
     }
 

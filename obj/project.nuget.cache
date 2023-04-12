@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "/TdYYtBCBvT80TYsBpm/lrZi7m/xz8bKi5I2cZmx7EDYrDZgGsUSnfOuv0Ie/nKWnhiAj6PbR3Ct9ZDfJiG5Eg==",
+  "dgSpecHash": "4Y45ezBYOXV6Eu9/60HFg1aOExhUa3M7aEZHT99Jbssgn6bqJO2pzHSqbON/UKmjGvrpV0zzAc3BIGaNfY6OcA==",
   "success": true,
   "projectFilePath": "/Users/clementlegay/Code/dotnet/guacactings/guacactings.csproj",
   "expectedPackageFiles": [
     "/Users/clementlegay/.nuget/packages/azure.core/1.25.0/azure.core.1.25.0.nupkg.sha512",
     "/Users/clementlegay/.nuget/packages/azure.identity/1.7.0/azure.identity.1.7.0.nupkg.sha512",
+    "/Users/clementlegay/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512",
     "/Users/clementlegay/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/clementlegay/.nuget/packages/microsoft.aspnetcore.mvc.versioning/5.0.0/microsoft.aspnetcore.mvc.versioning.5.0.0.nupkg.sha512",
     "/Users/clementlegay/.nuget/packages/microsoft.aspnetcore.openapi/7.0.0/microsoft.aspnetcore.openapi.7.0.0.nupkg.sha512",
