@@ -1,5 +1,6 @@
 using guacactings.Models;
 using guacactings.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace guacactings.Controllers;
@@ -27,6 +28,7 @@ public class SiteController : ControllerBase
     #region Methods
 
     [HttpGet(Name = "GetAllSites")]
+    [Authorize(Roles = "visitor, admin")]
     public async Task<IActionResult> GetSites(int page = 1, int rows = 10)
     {
         var result = await _siteService.GetSites(page, rows);
@@ -39,6 +41,7 @@ public class SiteController : ControllerBase
     }
     
     [HttpGet("{id:int}", Name = "GetSiteById")]
+    [Authorize(Roles = "visitor, admin")]
     public async Task<IActionResult> GetSiteById(int id)
     {
         var result = await _siteService.GetSiteById(id);
@@ -51,6 +54,7 @@ public class SiteController : ControllerBase
     }
     
     [HttpPost(Name = "AddSite")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> AddSite([FromForm] SiteRegistryDto site)
     {
         var result = await _siteService.AddSite(site);
@@ -63,6 +67,7 @@ public class SiteController : ControllerBase
     }
     
     [HttpPut("{id:int}/update", Name = "UpdateSite")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> UpdateSite([FromForm] SiteUpdateDto site, int id)
     {
         var result = await _siteService.UpdateSite(site, id);
@@ -75,6 +80,7 @@ public class SiteController : ControllerBase
     }
 
     [HttpDelete("{id:int}/delete", Name = "DeleteSite")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> DeleteSite(int id)
     {
         var result = await _siteService.DeleteSite(id);

@@ -1,6 +1,7 @@
 using System.Net.Mime;
 using guacactings.Models;
 using guacactings.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace guacactings.Controllers;
@@ -29,6 +30,7 @@ public class DocumentController : ControllerBase
 
     // Get all documents
     [HttpGet(Name = "GetAllDocuments")]
+    [Authorize(Roles = "visitor, admin")]
     public async Task<IActionResult> GetDocuments(int page = 1, int rows = 10)
     {
         var result = await _documentService.GetDocuments(page, rows);
@@ -41,6 +43,7 @@ public class DocumentController : ControllerBase
     }
 
     [HttpGet("{id:int}", Name = "GetDocumentById")]
+    [Authorize(Roles = "visitor, admin")]
     public async Task<IActionResult> GetDocumentById(int id)
     {
         var result = await _documentService.GetDocumentById(id);
@@ -52,7 +55,7 @@ public class DocumentController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("{employee}/{docType}/{fileName}", Name = "GetDocumentFile")]
+    [HttpGet("files/{employee}/{docType}/{fileName}", Name = "GetDocumentFile")]
     [ApiExplorerSettings(IgnoreApi = true)]
     public async Task<IActionResult> GetDocumentFile(string employee, string docType, string fileName)
     {
@@ -75,6 +78,7 @@ public class DocumentController : ControllerBase
     }
 
     [HttpPost(Name = "AddDocument")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> AddDocument([FromForm] DocumentRegistryDto document)
     {
         var result = await _documentService.AddDocument(document);
@@ -87,6 +91,7 @@ public class DocumentController : ControllerBase
     }
     
     [HttpPut("{id:int}", Name = "UpdateDocument")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> UpdateDocument([FromForm] DocumentUpdateDto document, int id)
     {
         var result = await _documentService.UpdateDocument(document, id);
@@ -99,6 +104,7 @@ public class DocumentController : ControllerBase
     }
     
     [HttpDelete("{id:int}", Name = "DeleteDocument")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> DeleteDocument(int id)
     {
         var result = await _documentService.DeleteDocument(id);

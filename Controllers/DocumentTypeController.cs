@@ -1,5 +1,6 @@
 using guacactings.Models;
 using guacactings.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace guacactings.Controllers;
@@ -28,6 +29,7 @@ public class DocumentTypeController : ControllerBase
     
     // Get all document types
     [HttpGet(Name = "GetAllDocumentTypes")]
+    [Authorize(Roles = "visitor, admin")]
     public async Task<IActionResult> GetDocumentTypes(int page = 1, int rows = 10)
     {
         var result = await _documentTypeService.GetDocumentTypes(page, rows);
@@ -41,6 +43,7 @@ public class DocumentTypeController : ControllerBase
     
     // Get document type by id
     [HttpGet("{id:int}", Name = "GetDocumentTypeById")]
+    [Authorize(Roles = "visitor, admin")]
     public async Task<IActionResult> GetDocumentTypeById(int id)
     {
         var result = await _documentTypeService.GetDocumentTypeById(id);
@@ -53,6 +56,7 @@ public class DocumentTypeController : ControllerBase
     }
     
     [HttpPost(Name = "AddDocumentType")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> AddDocumentType([FromForm] DocumentTypeRegistryDto documentType)
     {
         var result = await _documentTypeService.AddDocumentType(documentType);
@@ -66,6 +70,7 @@ public class DocumentTypeController : ControllerBase
     
     // Get document type by id
     [HttpPut("{id:int}/update", Name = "UpdateDocumentType")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> UpdateDocumentType([FromForm] DocumentTypeRegistryDto documentType, int id)
     {
         var result = await _documentTypeService.UpdateDocumentType(documentType, id);
@@ -79,6 +84,7 @@ public class DocumentTypeController : ControllerBase
     
     // Delete a document type
     [HttpDelete("{id:int}/delete", Name = "DeleteDocumentType")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> DeleteDocumentType(int id)
     {
         var result = await _documentTypeService.DeleteDocumentType(id);

@@ -1,5 +1,6 @@
 using guacactings.Models;
 using guacactings.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace guacactings.Controllers;
@@ -28,30 +29,28 @@ public class AdministratorController : ControllerBase
     #region Methods
 
     [HttpGet(Name = "GetAdministrators")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> GetAdministrators(int page = 1, int rows = 10)
     {
         var administrators = await _administratorService.GetAdministrators(page, rows);
-        if (administrators == null)
-        {
-            return BadRequest();
-        }
-        
         return Ok(administrators);
     }
     
     [HttpGet("{id:int}", Name = "GetAdministratorById")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> GetAdministratorById(int id)
     {
         var administrator = await _administratorService.GetAdministratorById(id);
         if (administrator == null)
         {
-            return BadRequest();
+            return NotFound();
         }
         
         return Ok(administrator);
     }
     
     [HttpPost(Name = "AddAdministrator")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> AddAdministrator([FromForm] AdministratorRegistryDto administrator)
     {
         var newAdministrator = await _administratorService.AddAdministrator(administrator);
@@ -64,6 +63,7 @@ public class AdministratorController : ControllerBase
     }
     
     [HttpPost("login", Name = "LoginAdministrator")]
+    [Authorize(Roles = "visitor, admin")]
     public async Task<IActionResult> LoginAdministrator([FromForm] AdministratorLoginDto administrator)
     {
         var loggedAdministrator = await _administratorService.LoginAdministrator(administrator);
@@ -76,6 +76,7 @@ public class AdministratorController : ControllerBase
     }
 
     [HttpPost("token", Name = "PersistConnection")]
+    [Authorize(Roles = "visitor, admin")]
     public async Task<IActionResult> PersistConnection([FromForm] AdministratorPersistDto administrator)
     {
         var persistedAdministrator = await _administratorService.PersistConnection(administrator);
@@ -88,6 +89,7 @@ public class AdministratorController : ControllerBase
     }
 
     [HttpPut("{id:int}/update/password", Name = "UpdatePasswordAdministrator")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> UpdatePasswordAdministrator(int id, [FromForm] AdministratorUpdatePasswordDto administrator)
     {
         var updatedAdministrator = await _administratorService.UpdatePasswordAdministrator(id, administrator);
@@ -100,6 +102,7 @@ public class AdministratorController : ControllerBase
     }
     
     [HttpPut("{id:int}/update/email", Name = "UpdateAdministrator")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> UpdateAdministrator(int id, [FromForm] AdministratorUpdateEmailDto administrator)
     {
         var updatedAdministrator = await _administratorService.UpdateEmailAdministrator(id, administrator);
@@ -112,6 +115,7 @@ public class AdministratorController : ControllerBase
     }
     
     [HttpDelete("{id:int}/delete", Name = "DeleteAdministrator")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> DeleteAdministrator(int id)
     {
         var deletedAdministrator = await _administratorService.DeleteAdministrator(id);

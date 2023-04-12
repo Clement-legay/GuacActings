@@ -1,5 +1,6 @@
 using guacactings.Models;
 using guacactings.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace guacactings.Controllers;
@@ -31,6 +32,7 @@ public class ServiceController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet(Name = "GetServices")]
+    [Authorize(Roles = "visitor, admin")]
     public async Task<IActionResult> GetServices(int page = 1, int rows = 10)
     {
         var result = await _serviceService.GetServices(page, rows);
@@ -43,6 +45,7 @@ public class ServiceController : ControllerBase
     }
     
     [HttpGet("{id:int}", Name = "GetServiceById")]
+    [Authorize(Roles = "visitor, admin")]
     public async Task<IActionResult> GetServiceById(int id)
     {
         var result = await _serviceService.GetServiceById(id);
@@ -55,6 +58,7 @@ public class ServiceController : ControllerBase
     }
     
     [HttpPost(Name = "AddService")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> AddService([FromForm] ServiceRegistryDto service)
     {
         var result = await _serviceService.AddService(service);
@@ -67,6 +71,7 @@ public class ServiceController : ControllerBase
     }
     
     [HttpPut("{id:int}", Name = "UpdateService")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> UpdateService(int id, [FromForm] ServiceUpdateDto service)
     {
         var result = await _serviceService.UpdateService(service, id);
@@ -79,6 +84,7 @@ public class ServiceController : ControllerBase
     }
     
     [HttpDelete("{id:int}", Name = "DeleteService")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> DeleteService(int id)
     {
         var result = await _serviceService.DeleteService(id);

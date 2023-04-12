@@ -1,5 +1,6 @@
 using guacactings.Models;
 using guacactings.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace guacactings.Controllers;
@@ -31,6 +32,7 @@ public class EmployeeController : ControllerBase
     /// </summary>
     /// <returns></returns>    
     [HttpGet(Name = "GetEmployees")]
+    [Authorize(Roles = "visitor, admin")]
     public async Task<IActionResult> GetEmployees(int page = 1, int rows = 10)
     {
         var result = await _employeeService.GetEmployees(page, rows);
@@ -43,6 +45,7 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpGet("{id:int}", Name = "GetEmployeeById")]
+    [Authorize(Roles = "visitor, admin")]
     public async Task<IActionResult> GetEmployeeById(int id)
     {
         var result = await _employeeService.GetEmployeeById(id);
@@ -55,6 +58,7 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpPost(Name = "AddEmployee")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> AddEmployee([FromForm] EmployeeRegistryDto employee)
     {
         var result = await _employeeService.AddEmployee(employee);
@@ -67,6 +71,7 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpPut("{id:int}/update", Name = "UpdateEmployee")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> UpdateEmployee([FromForm] EmployeeUpdateDto employee, int id)
     {
         var result = await _employeeService.UpdateEmployee(employee, id);
@@ -80,6 +85,7 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpDelete("{id:int}/delete", Name = "DeleteEmployee")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> DeleteEmployee(int id)
     {
         var result = await _employeeService.DeleteEmployee(id);

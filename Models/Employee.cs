@@ -33,6 +33,9 @@ public class Employee
     [ForeignKey("SiteId")]
     [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Site? Site { get; set; }
+    
+    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Administrator? Administrator { get; set; }
 }
 
 public class EmployeeRegistryDto

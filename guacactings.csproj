@@ -49,7 +49,6 @@
     <Compile Remove="Migrations\20230323182839_JobAndJobOffers.Designer.cs" />
     <Compile Remove="Migrations\20230324144217_JobAndJobOfferUpdate.cs" />
     <Compile Remove="Migrations\20230324144217_JobAndJobOfferUpdate.Designer.cs" />
-    <Compile Remove="Migrations\DataContextModelSnapshot.cs" />
   </ItemGroup>
 
   <ItemGroup>
