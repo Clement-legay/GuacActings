@@ -15,14 +15,14 @@ public class Address
     public ICollection<Site>? Sites { get; set; }
 }
 
-public abstract class AddressRegistryDto
+public class AddressRegistryDto
 {
     [Required] public string? Street { get; set; }
     [Required] public string? City { get; set; }
     [Required] public string? PostalCode { get; set; }
 }
 
-public abstract class AddressUpdateDto
+public class AddressUpdateDto
 {
     public string? Street { get; set; }
     public string? City { get; set; }
