@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/clementlegay/Code/dotnet/guacactings/guacactings.csproj": {}
+    "/app/guacactings.csproj": {}
   },
   "projects": {
-    "/Users/clementlegay/Code/dotnet/guacactings/guacactings.csproj": {
+    "/app/guacactings.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/clementlegay/Code/dotnet/guacactings/guacactings.csproj",
+        "projectUniqueName": "/app/guacactings.csproj",
         "projectName": "guacactings",
-        "projectPath": "/Users/clementlegay/Code/dotnet/guacactings/guacactings.csproj",
-        "packagesPath": "/Users/clementlegay/.nuget/packages/",
-        "outputPath": "/Users/clementlegay/Code/dotnet/guacactings/obj/",
+        "projectPath": "/app/guacactings.csproj",
+        "packagesPath": "/root/.nuget/packages/",
+        "outputPath": "/app/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/clementlegay/.nuget/NuGet/NuGet.Config"
+          "/root/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -96,7 +96,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.100/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
         }
       }
     }
