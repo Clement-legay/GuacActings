@@ -63,7 +63,7 @@ public class AdministratorController : ControllerBase
     }
     
     [HttpPost("login", Name = "LoginAdministrator")]
-    [Authorize(Roles = "visitor, admin")]
+    [Authorize(Roles = "visitor")]
     public async Task<IActionResult> LoginAdministrator([FromForm] AdministratorLoginDto administrator)
     {
         var loggedAdministrator = await _administratorService.LoginAdministrator(administrator);
@@ -76,7 +76,7 @@ public class AdministratorController : ControllerBase
     }
 
     [HttpPost("token", Name = "PersistConnection")]
-    [Authorize(Roles = "visitor, admin")]
+    [Authorize(Roles = "visitor")]
     public async Task<IActionResult> PersistConnection([FromForm] AdministratorPersistDto administrator)
     {
         var persistedAdministrator = await _administratorService.PersistConnection(administrator);

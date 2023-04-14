@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using guacactings.Context;
 using guacactings.Models;
 using Microsoft.EntityFrameworkCore;
@@ -9,14 +10,16 @@ public class EmployeeService : IEmployeeService
     #region Fields
 
     private readonly DataContext _context;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     #endregion
     
     #region Constructor
     
-    public EmployeeService(DataContext context)
+    public EmployeeService(DataContext context, IHttpContextAccessor httpContextAccessor)
     {
         _context = context;
+        _httpContextAccessor = httpContextAccessor;
     }
     
     #endregion
@@ -44,6 +47,11 @@ public class EmployeeService : IEmployeeService
 
     public async Task<Employee?> AddEmployee(EmployeeRegistryDto employee)
     {
+        var adminIdString = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (adminIdString is null) return null;
+        var adminId = int.Parse(adminIdString);
+        
+        // create username
         var username = $"{employee.Firstname![0]}{employee.Lastname}{new Random().Next(1000, 9999)}";
         
         var newEmployee = new Employee {
@@ -59,6 +67,7 @@ public class EmployeeService : IEmployeeService
             SiteId = employee.SiteId,
             CreatedAt = DateTime.Now,
             UpdatedAt = DateTime.Now,
+            CreatedBy = adminId
         };
 
         var saveEmployee = _context.Employees.Add(newEmployee).Entity;
@@ -68,10 +77,9 @@ public class EmployeeService : IEmployeeService
 
     public async Task<Employee?> UpdateEmployee(EmployeeUpdateDto employee, int id)
     {
-        if (employee is null)
-        {
-            return null;
-        }
+        var adminIdString = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (adminIdString is null) return null;
+        var adminId = int.Parse(adminIdString);
         
         var updateEmployee = await _context.Employees.FindAsync(id);
         if (updateEmployee is null)
@@ -89,6 +97,7 @@ public class EmployeeService : IEmployeeService
         updateEmployee.Email = employee.Email ?? updateEmployee.Email;
         updateEmployee.BirthDate = employee.BirthDate ?? updateEmployee.BirthDate;
         updateEmployee.UpdatedAt = DateTime.Now;
+        updateEmployee.UpdatedBy = adminId;
 
         var updatedEmployee = _context.Employees.Update(updateEmployee).Entity;
         await _context.SaveChangesAsync();

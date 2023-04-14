@@ -19,11 +19,22 @@ public class Employee
     public int? SiteId { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
+    public int? CreatedBy { get; set; }
+    public int? UpdatedBy { get; set; }
+    
+    [ForeignKey("CreatedBy")]
+    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Administrator? CreatedByAdministrator { get; set; }
+    
+    [ForeignKey("UpdatedBy")]
+    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Administrator? UpdatedByAdministrator { get; set; }
     
     [ForeignKey("AddressId")]
     [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Address? Address { get; set; }
     
+    [JsonIgnore]
     public ICollection<Document>? Documents { get; set; }
     
     [ForeignKey("ServiceId")]

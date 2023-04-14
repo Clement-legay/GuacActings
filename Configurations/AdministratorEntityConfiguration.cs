@@ -10,6 +10,10 @@ public class AdministratorEntityConfiguration : IEntityTypeConfiguration<Adminis
     {
         builder.ToTable("administrator");
         
+        builder.HasOne(a => a.Employee)
+            .WithOne(e => e.Administrator)
+            .HasForeignKey<Administrator>(a => a.EmployeeId);
+        
         builder.HasKey(item => item.Id);
     }
 }

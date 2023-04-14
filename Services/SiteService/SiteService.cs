@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using guacactings.Context;
 using guacactings.Models;
 using Microsoft.EntityFrameworkCore;
@@ -9,14 +10,16 @@ public class SiteService : ISiteService
     #region Fields
 
     private readonly DataContext _context;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     #endregion
 
     #region Constructor
 
-    public SiteService(DataContext context)
+    public SiteService(DataContext context, IHttpContextAccessor httpContextAccessor)
     {
         _context = context;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     #endregion
@@ -41,13 +44,18 @@ public class SiteService : ISiteService
     // Add an enterprise
     public async Task<Site?> AddSite(SiteRegistryDto site)
     {
+        var adminIdString = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (adminIdString is null) return null;
+        var adminId = int.Parse(adminIdString);
+        
         var newSite = new Site()
         {
             Name = site.Name,
             Description = site.Description, 
             AddressId = site.AddressId,
             CreatedAt = DateTime.Now,
-            UpdatedAt = DateTime.Now
+            UpdatedAt = DateTime.Now,
+            CreatedBy = adminId
         };
 
         var addedSite = _context.Sites.Add(newSite).Entity;
@@ -58,6 +66,10 @@ public class SiteService : ISiteService
     // Update an enterprise
     public async Task<Site?> UpdateSite(SiteUpdateDto site, int id)
     {
+        var adminIdString = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (adminIdString is null) return null;
+        var adminId = int.Parse(adminIdString);
+        
         var updateSite = await _context.Sites.FindAsync(id);
         if (updateSite is null) return null;
 
@@ -65,6 +77,7 @@ public class SiteService : ISiteService
         updateSite.Description = site.Description ?? updateSite.Description;
         updateSite.AddressId = site.AddressId ?? updateSite.AddressId;
         updateSite.UpdatedAt = DateTime.Now;
+        updateSite.UpdatedBy = adminId;
         
         var updatedSite = _context.Sites.Update(updateSite).Entity;
         await _context.SaveChangesAsync();

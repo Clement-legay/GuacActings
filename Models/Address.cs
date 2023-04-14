@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace guacactings.Models;
@@ -11,7 +12,19 @@ public class Address
     public string? PostalCode { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
+    public int? CreatedBy { get; set; }
+    public int? UpdatedBy { get; set; }
+    
+    [ForeignKey("CreatedBy")]
+    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Administrator? CreatedByAdministrator { get; set; }
+    [ForeignKey("UpdatedBy")]
+    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Administrator? UpdatedByAdministrator { get; set; }
+    
+    [JsonIgnore]
     public ICollection<Employee>? Employees { get; set; }
+    [JsonIgnore]
     public ICollection<Site>? Sites { get; set; }
 }
 

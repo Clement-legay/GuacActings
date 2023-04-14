@@ -36,6 +36,9 @@ namespace guacactings.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
                     b.Property<string>("PostalCode")
                         .HasColumnType("nvarchar(max)");
 
@@ -45,18 +48,25 @@ namespace guacactings.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("UpdatedBy")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("UpdatedBy");
 
                     b.ToTable("address", (string)null);
                 });
 
             modelBuilder.Entity("guacactings.Models.Administrator", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -81,7 +91,9 @@ namespace guacactings.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeId");
+                    b.HasIndex("EmployeeId")
+                        .IsUnique()
+                        .HasFilter("[EmployeeId] IS NOT NULL");
 
                     b.ToTable("administrator", (string)null);
                 });
@@ -99,6 +111,9 @@ namespace guacactings.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -118,11 +133,18 @@ namespace guacactings.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("UpdatedBy")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
 
                     b.HasIndex("DocumentTypeId");
 
                     b.HasIndex("EmployeeId");
+
+                    b.HasIndex("UpdatedBy");
 
                     b.ToTable("document", (string)null);
                 });
@@ -138,13 +160,23 @@ namespace guacactings.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("UpdatedBy")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("UpdatedBy");
 
                     b.ToTable("document_type", (string)null);
                 });
@@ -165,6 +197,9 @@ namespace guacactings.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -190,6 +225,9 @@ namespace guacactings.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("UpdatedBy")
+                        .HasColumnType("int");
+
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
@@ -197,9 +235,13 @@ namespace guacactings.Migrations
 
                     b.HasIndex("AddressId");
 
+                    b.HasIndex("CreatedBy");
+
                     b.HasIndex("ServiceId");
 
                     b.HasIndex("SiteId");
+
+                    b.HasIndex("UpdatedBy");
 
                     b.ToTable("employee", (string)null);
                 });
@@ -215,6 +257,9 @@ namespace guacactings.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -224,7 +269,14 @@ namespace guacactings.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("UpdatedBy")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("UpdatedBy");
 
                     b.ToTable("service", (string)null);
                 });
@@ -243,6 +295,9 @@ namespace guacactings.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -252,24 +307,50 @@ namespace guacactings.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("UpdatedBy")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
 
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("UpdatedBy");
+
                     b.ToTable("site", (string)null);
+                });
+
+            modelBuilder.Entity("guacactings.Models.Address", b =>
+                {
+                    b.HasOne("guacactings.Models.Administrator", "CreatedByAdministrator")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy");
+
+                    b.HasOne("guacactings.Models.Administrator", "UpdatedByAdministrator")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
+
+                    b.Navigation("CreatedByAdministrator");
+
+                    b.Navigation("UpdatedByAdministrator");
                 });
 
             modelBuilder.Entity("guacactings.Models.Administrator", b =>
                 {
                     b.HasOne("guacactings.Models.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId");
+                        .WithOne("Administrator")
+                        .HasForeignKey("guacactings.Models.Administrator", "EmployeeId");
 
                     b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("guacactings.Models.Document", b =>
                 {
+                    b.HasOne("guacactings.Models.Administrator", "CreatedByAdministrator")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy");
+
                     b.HasOne("guacactings.Models.DocumentType", "DocumentType")
                         .WithMany("Documents")
                         .HasForeignKey("DocumentTypeId");
@@ -278,9 +359,32 @@ namespace guacactings.Migrations
                         .WithMany("Documents")
                         .HasForeignKey("EmployeeId");
 
+                    b.HasOne("guacactings.Models.Administrator", "UpdatedByAdministrator")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
+
+                    b.Navigation("CreatedByAdministrator");
+
                     b.Navigation("DocumentType");
 
                     b.Navigation("Employee");
+
+                    b.Navigation("UpdatedByAdministrator");
+                });
+
+            modelBuilder.Entity("guacactings.Models.DocumentType", b =>
+                {
+                    b.HasOne("guacactings.Models.Administrator", "CreatedByAdministrator")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy");
+
+                    b.HasOne("guacactings.Models.Administrator", "UpdatedByAdministrator")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
+
+                    b.Navigation("CreatedByAdministrator");
+
+                    b.Navigation("UpdatedByAdministrator");
                 });
 
             modelBuilder.Entity("guacactings.Models.Employee", b =>
@@ -288,6 +392,10 @@ namespace guacactings.Migrations
                     b.HasOne("guacactings.Models.Address", "Address")
                         .WithMany("Employees")
                         .HasForeignKey("AddressId");
+
+                    b.HasOne("guacactings.Models.Administrator", "CreatedByAdministrator")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy");
 
                     b.HasOne("guacactings.Models.Service", "Service")
                         .WithMany("Employees")
@@ -297,11 +405,34 @@ namespace guacactings.Migrations
                         .WithMany("Employees")
                         .HasForeignKey("SiteId");
 
+                    b.HasOne("guacactings.Models.Administrator", "UpdatedByAdministrator")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
+
                     b.Navigation("Address");
+
+                    b.Navigation("CreatedByAdministrator");
 
                     b.Navigation("Service");
 
                     b.Navigation("Site");
+
+                    b.Navigation("UpdatedByAdministrator");
+                });
+
+            modelBuilder.Entity("guacactings.Models.Service", b =>
+                {
+                    b.HasOne("guacactings.Models.Administrator", "CreatedByAdministrator")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy");
+
+                    b.HasOne("guacactings.Models.Administrator", "UpdatedByAdministrator")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
+
+                    b.Navigation("CreatedByAdministrator");
+
+                    b.Navigation("UpdatedByAdministrator");
                 });
 
             modelBuilder.Entity("guacactings.Models.Site", b =>
@@ -310,7 +441,19 @@ namespace guacactings.Migrations
                         .WithMany("Sites")
                         .HasForeignKey("AddressId");
 
+                    b.HasOne("guacactings.Models.Administrator", "CreatedByAdministrator")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy");
+
+                    b.HasOne("guacactings.Models.Administrator", "UpdatedByAdministrator")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
+
                     b.Navigation("Address");
+
+                    b.Navigation("CreatedByAdministrator");
+
+                    b.Navigation("UpdatedByAdministrator");
                 });
 
             modelBuilder.Entity("guacactings.Models.Address", b =>
@@ -327,6 +470,8 @@ namespace guacactings.Migrations
 
             modelBuilder.Entity("guacactings.Models.Employee", b =>
                 {
+                    b.Navigation("Administrator");
+
                     b.Navigation("Documents");
                 });
 

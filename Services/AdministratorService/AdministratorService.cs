@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 using guacactings.Context;
 using guacactings.Models;
@@ -10,14 +11,16 @@ public class AdministratorService : IAdministratorService
     #region Fields
 
     private readonly DataContext _context;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     #endregion
 
     #region Constructor
 
-    public AdministratorService(DataContext context)
+    public AdministratorService(DataContext context, IHttpContextAccessor httpContextAccessor)
     {
         _context = context;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     #endregion
@@ -56,7 +59,7 @@ public class AdministratorService : IAdministratorService
             Email = administrator.Email,
             Password = administrator.Password,
             CreatedAt = DateTime.Now,
-            UpdatedAt = DateTime.Now,
+            UpdatedAt = DateTime.Now
         };
         
         var saveAdministrator = _context.Administrators.Add(newAdministrator).Entity;
@@ -101,6 +104,14 @@ public class AdministratorService : IAdministratorService
     // Delete an administrator
     public async Task<Administrator?> DeleteAdministrator(int id)
     {
+        var adminIdString = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (adminIdString is null) return null;
+        var adminId = int.Parse(adminIdString);
+        if (adminId == id) return null;
+        
+        var administrators = await _context.Administrators.Take(5).ToListAsync();
+        if (administrators.Count == 1) return null;
+        
         var administratorToDelete = await _context.Administrators.FindAsync(id);
         if (administratorToDelete == null)
         {
@@ -157,7 +168,6 @@ public class AdministratorService : IAdministratorService
         var administratorToPersist = await _context.Administrators.Include(a => a.Employee).FirstOrDefaultAsync(a => a.Token == administrator.Token);
         if (administratorToPersist is null)
         {
-            Console.WriteLine("Administrator not found");
             return null;
         }
         
@@ -172,7 +182,6 @@ public class AdministratorService : IAdministratorService
         
         if (DateTime.Now > timestampDecodedDateTime)
         {
-            Console.WriteLine("Token expired");
             return null;
         }
         

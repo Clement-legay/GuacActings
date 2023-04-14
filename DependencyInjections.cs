@@ -7,6 +7,7 @@ public static class DependencyInjections
 {
     public static void AddInjections(this IServiceCollection services)
     {
+        services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
         services.AddScoped<IEmployeeService, EmployeeService>();
         services.AddScoped<IAddressService, AddressService>();
         services.AddScoped<IDocumentTypeService, DocumentTypeService>();

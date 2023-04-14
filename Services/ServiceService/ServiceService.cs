@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using guacactings.Context;
 using guacactings.Models;
 using Microsoft.EntityFrameworkCore;
@@ -9,14 +10,16 @@ public class ServiceService : IServiceService
     #region Fields
 
     private readonly DataContext _context;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     #endregion
     
     #region Constructor
     
-    public ServiceService(DataContext context)
+    public ServiceService(DataContext context, IHttpContextAccessor httpContextAccessor)
     {
         _context = context;
+        _httpContextAccessor = httpContextAccessor;
     }
     
     #endregion
@@ -41,12 +44,17 @@ public class ServiceService : IServiceService
     // Add a service
     public async Task<Service?> AddService(ServiceRegistryDto service)
     {
+        var adminIdString = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (adminIdString is null) return null;
+        var adminId = int.Parse(adminIdString);
+        
         var newService = new Service()
         {
             Name = service.Name,
             Description = service.Description,
             CreatedAt = DateTime.Now,
-            UpdatedAt = DateTime.Now
+            UpdatedAt = DateTime.Now,
+            CreatedBy = adminId
         };
         
         var addedService = _context.Services.Add(newService).Entity;
@@ -57,12 +65,17 @@ public class ServiceService : IServiceService
     // Update a service
     public async Task<Service?> UpdateService(ServiceUpdateDto service, int id)
     {
+        var adminIdString = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (adminIdString is null) return null;
+        var adminId = int.Parse(adminIdString);
+        
         var serviceToUpdate = await _context.Services.FindAsync(id);
         if (serviceToUpdate == null) return null;
         
         serviceToUpdate.Name = service.Name;
         serviceToUpdate.Description = service.Description;
         serviceToUpdate.UpdatedAt = DateTime.Now;
+        serviceToUpdate.UpdatedBy = adminId;
         
         var updatedService = _context.Services.Update(serviceToUpdate).Entity;
         await _context.SaveChangesAsync();

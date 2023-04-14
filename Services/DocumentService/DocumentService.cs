@@ -1,4 +1,5 @@
 using System.Net.Mime;
+using System.Security.Claims;
 using Azure;
 using guacactings.Context;
 using guacactings.Models;
@@ -12,14 +13,16 @@ public class DocumentService : IDocumentService
     #region Fields
 
     private readonly DataContext _context;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     #endregion
 
     #region Constructor
 
-    public DocumentService(DataContext context)
+    public DocumentService(DataContext context, IHttpContextAccessor httpContextAccessor)
     {
         _context = context;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     #endregion
@@ -44,12 +47,18 @@ public class DocumentService : IDocumentService
     // Add a document
     public async Task<Document?> AddDocument([FromForm] DocumentRegistryDto document)
     {
+        var adminIdString = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (adminIdString is null) return null;
+        var adminId = int.Parse(adminIdString);
+        
         var newDocument = await SaveFileToDisk(document);
         if (newDocument is null)
         {
             return null;
         }
         
+        newDocument.CreatedBy = adminId;
+
         var saveDocument = _context.Documents.Add(newDocument).Entity;
         await _context.SaveChangesAsync();
         return saveDocument;
@@ -58,6 +67,10 @@ public class DocumentService : IDocumentService
     // Update a document
     public async Task<Document?> UpdateDocument([FromForm] DocumentUpdateDto document, int id)
     {
+        var adminIdString = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (adminIdString is null) return null;
+        var adminId = int.Parse(adminIdString);
+        
         // Get the document to update
         var updateDocument = await _context.Documents.FindAsync(id);
         if (updateDocument is null) return null;
@@ -122,6 +135,7 @@ public class DocumentService : IDocumentService
         }
         
         updateDocument.UpdatedAt = DateTime.Now;
+        updateDocument.UpdatedBy = adminId;
         
         if (Directory.GetFiles(Path.GetDirectoryName(oldPath)!).Length == 0)
         {

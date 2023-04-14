@@ -15,6 +15,16 @@ public class Document
     public int? EmployeeId { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
+    public int? CreatedBy { get; set; }
+    public int? UpdatedBy { get; set; }
+    
+    [ForeignKey("CreatedBy")]
+    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Administrator? CreatedByAdministrator { get; set; }
+    
+    [ForeignKey("UpdatedBy")]
+    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Administrator? UpdatedByAdministrator { get; set; }
     
     [ForeignKey("DocumentTypeId")]
     [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]

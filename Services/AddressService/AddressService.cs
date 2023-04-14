@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices.JavaScript;
+using System.Security.Claims;
 using guacactings.Context;
 using guacactings.Models;
 using Microsoft.EntityFrameworkCore;
@@ -10,14 +10,16 @@ public class AddressService : IAddressService
     #region Fields
 
     private readonly DataContext _context;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     #endregion
     
     #region Constructor
     
-    public AddressService(DataContext context)
+    public AddressService(DataContext context, IHttpContextAccessor httpContextAccessor)
     {
         _context = context;
+        _httpContextAccessor = httpContextAccessor;
     }
     
     #endregion
@@ -42,10 +44,10 @@ public class AddressService : IAddressService
     // Create a new address
     public async Task<Address?> AddAddress(AddressRegistryDto address)
     {
-        if (address is null)
-        {
-            return null;
-        }
+        var adminIdString = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (adminIdString is null) return null;
+        var adminId = int.Parse(adminIdString.ToString());
+        
 
         var newAddress = new Address
         {
@@ -54,6 +56,7 @@ public class AddressService : IAddressService
             PostalCode = address.PostalCode,
             CreatedAt = DateTime.Now,
             UpdatedAt = DateTime.Now,
+            CreatedBy = adminId
         };
 
         var saveAddress = _context.Addresses.Add(newAddress).Entity;
@@ -62,12 +65,11 @@ public class AddressService : IAddressService
     }
     
     // Update an address
-    public async Task<Address?> UpdateAddress(AddressRegistryDto address, int id)
+    public async Task<Address?> UpdateAddress(AddressUpdateDto address, int id)
     {
-        if (address is null)
-        {
-            return null;
-        }
+        var adminIdString = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (adminIdString is null) return null;
+        var adminId = int.Parse(adminIdString);
 
         var updateAddress = await _context.Addresses.FindAsync(id);
         if (updateAddress is null)
@@ -79,6 +81,7 @@ public class AddressService : IAddressService
         updateAddress.City = address.City ?? updateAddress.City;
         updateAddress.PostalCode = address.PostalCode ?? updateAddress.PostalCode;
         updateAddress.UpdatedAt = DateTime.Now;
+        updateAddress.UpdatedBy = adminId;
 
         var updatedAddress = _context.Addresses.Update(updateAddress).Entity;
         await _context.SaveChangesAsync();
@@ -87,8 +90,8 @@ public class AddressService : IAddressService
 
     public async Task<Address?> DeleteAddress(int id)
     {
-        var deleteAddress = await _context.Addresses.FindAsync(id);
-        if (deleteAddress is null)
+        var deleteAddress = await _context.Addresses.Include(a => a.Employees).FirstOrDefaultAsync(a => a.Id == id);
+        if (deleteAddress is null || deleteAddress.Employees!.Count > 0)
         {
             return null;
         }

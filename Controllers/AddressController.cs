@@ -68,7 +68,7 @@ public class AddressController : ControllerBase
 
     [HttpPut("{id:int}/update", Name = "UpdateAddress")]
     [Authorize(Roles = "admin")]
-    public async Task<IActionResult> UpdateAddress([FromForm] AddressRegistryDto address, int id)
+    public async Task<IActionResult> UpdateAddress([FromForm] AddressUpdateDto address, int id)
     {
         var result = await _addressService.UpdateAddress(address, id);
         if (result is null)

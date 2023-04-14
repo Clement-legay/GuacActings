@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using guacactings.Context;
 using guacactings.Models;
 using Microsoft.EntityFrameworkCore;
@@ -9,14 +10,16 @@ public class DocumentTypeService : IDocumentTypeService
     #region Fields
 
     private readonly DataContext _context;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     #endregion
 
     #region Constructor
 
-    public DocumentTypeService(DataContext context)
+    public DocumentTypeService(DataContext context, IHttpContextAccessor httpContextAccessor)
     {
         _context = context;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     #endregion
@@ -41,11 +44,16 @@ public class DocumentTypeService : IDocumentTypeService
     // Add a new Document Type
     public async Task<DocumentType?> AddDocumentType(DocumentTypeRegistryDto documentType)
     {
+        var adminIdString = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (adminIdString is null) return null;
+        var adminId = int.Parse(adminIdString);
+        
         var newDocumentType = new DocumentType
         {
             Name = documentType.Name,
             CreatedAt = DateTime.Now,
-            UpdatedAt = DateTime.Now
+            UpdatedAt = DateTime.Now,
+            CreatedBy = adminId
         };
 
         var addedDocumentType = _context.DocumentTypes.Add(newDocumentType).Entity;
@@ -56,6 +64,10 @@ public class DocumentTypeService : IDocumentTypeService
     // Update a document type
     public async Task<DocumentType?> UpdateDocumentType(DocumentTypeRegistryDto documentType, int id)
     {
+        var adminIdString = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (adminIdString is null) return null;
+        var adminId = int.Parse(adminIdString);
+        
         var updateDocumentType = await _context.DocumentTypes.Include(d => d.Documents).FirstOrDefaultAsync(d => d.Id == id);
         if (updateDocumentType is null)
         {
@@ -108,6 +120,7 @@ public class DocumentTypeService : IDocumentTypeService
 
         updateDocumentType.Name = documentType.Name;
         updateDocumentType.UpdatedAt = DateTime.Now;
+        updateDocumentType.UpdatedBy = adminId;
         
         _context.DocumentTypes.Update(updateDocumentType);
         await _context.SaveChangesAsync();

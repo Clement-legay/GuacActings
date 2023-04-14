@@ -14,7 +14,7 @@ public interface IAddressService
     Task<Address?> AddAddress(AddressRegistryDto address);
     
     // Update an address
-    Task<Address?> UpdateAddress(AddressRegistryDto address, int id);
+    Task<Address?> UpdateAddress(AddressUpdateDto address, int id);
     
     // Delete an address
     Task<Address?> DeleteAddress(int id);

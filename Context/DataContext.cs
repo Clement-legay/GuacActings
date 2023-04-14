@@ -24,7 +24,7 @@ public class DataContext : DbContext
         modelBuilder.ApplyConfiguration(new ServiceEntityConfiguration());
         modelBuilder.ApplyConfiguration(new AdministratorEntityConfiguration());
     }
-    
+
     #region Properties
     
     public DbSet<Employee> Employees { get; set; }

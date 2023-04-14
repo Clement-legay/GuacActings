@@ -9,17 +9,18 @@ namespace guacactings.Models;
 public class Administrator
 {
     public int Id { get; set; }
-    public int? EmployeeId { get; set; }
     public string? Email { get; set; }
     [JsonIgnore]
     public string? Password { get; set; }
     public string? Token { get; set; }
-    [ForeignKey("EmployeeId")]
-    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Employee? Employee { get; set; }
     public DateTime? LastLogin { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
+    public int? EmployeeId { get; set; }
+    
+    [ForeignKey("EmployeeId")]
+    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Employee? Employee { get; set; }
 }
 
 public class AdministratorRegistryDto

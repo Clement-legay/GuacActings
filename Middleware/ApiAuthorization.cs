@@ -86,6 +86,7 @@ public class ApiAuthorization
             
             claims = new List<Claim>
             {
+                new Claim(ClaimTypes.NameIdentifier, employee.Administrator!.Id.ToString()),
                 new Claim(ClaimTypes.Name, employee.Username!),
                 new Claim(ClaimTypes.Role, "admin")
             };
