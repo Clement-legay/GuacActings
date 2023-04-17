@@ -45,8 +45,10 @@ Replace "yourStrong(!)Password" with a strong password of your choice.
   "apiKey": "yourApiKey"
 }
 ```
-Replace "yourStrong(!)Password" with the password you chose in step 2.
+Replace "yourStrong(!)Password" with the password you chose in step 2. <br />
 Replace "yourApiKey" with a strong API key of your choice.
+
+You can create a second file named appsettings.Development.json to override the configuration for development mode.
 
 4. Build and run the Docker container for the SQL Server database:
 
@@ -54,8 +56,14 @@ Replace "yourApiKey" with a strong API key of your choice.
 docker-compose up -d
 ```
 
-5. Navigate to the Swagger UI at [https://localhost:8080/swagger/index.html](https://localhost:8080/swagger/index.html) to test the API.
+6. Navigate to the Swagger UI at [https://localhost:8080/swagger/index.html](https://localhost:8080/swagger/index.html) to test the API.
 
+By default an admin account is created with the following credentials: <br />
+    Email : admin@admin.fr <br />
+    Password : 123456 <br />
+    Username : admin <br />
+
+You must insert the string : "Bearer (yourApiKey:adminUsername encoded in Base64)"  in the "Authorization" header of your request to be allowed.
 
 ## Development
 

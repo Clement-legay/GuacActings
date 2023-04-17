@@ -23,6 +23,29 @@ public class DataContext : DbContext
         modelBuilder.ApplyConfiguration(new SiteEntityConfiguration());
         modelBuilder.ApplyConfiguration(new ServiceEntityConfiguration());
         modelBuilder.ApplyConfiguration(new AdministratorEntityConfiguration());
+        
+        // create a default employee
+        modelBuilder.Entity<Employee>().HasData(new Employee
+        {
+            Id = 1,
+            Firstname = "John",
+            Lastname = "Doe",
+            Username = "admin",
+            BirthDate = DateTime.Now,
+            CreatedAt = DateTime.Now,
+            UpdatedAt = DateTime.Now
+        });
+        
+        // create a default admin account
+        modelBuilder.Entity<Administrator>().HasData(new Administrator
+        {
+            Id = 1,
+            Password = BCrypt.Net.BCrypt.HashPassword("123456"),
+            Email = "admin@admin.fr",
+            EmployeeId = 1,
+            CreatedAt = DateTime.Now,
+            UpdatedAt = DateTime.Now
+        });
     }
 
     #region Properties
