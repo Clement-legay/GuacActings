@@ -41,10 +41,12 @@ Replace "yourStrong(!)Password" with a strong password of your choice.
   "AllowedHosts": "*",
   "ConnectionStrings": {
     "DefaultConnection": "Server=localhost;Database=guacactings;User=sa;Password=IveBeenPirated76!;TrustServerCertificate=true;MultipleActiveResultSets=True"
-  }
+  },
+  "apiKey": "yourApiKey"
 }
 ```
 Replace "yourStrong(!)Password" with the password you chose in step 2.
+Replace "yourApiKey" with a strong API key of your choice.
 
 4. Build and run the Docker container for the SQL Server database:
 
@@ -52,19 +54,7 @@ Replace "yourStrong(!)Password" with the password you chose in step 2.
 docker-compose up -d
 ```
 
-5. Create the database schema:
-
-```bash
-dotnet ef database update
-```
-
-6. Build and run the application:
-
-```bash
-dotnet run
-```
-
-7. Navigate to the Swagger UI at [https://localhost:5001/swagger/index.html](https://localhost:5001/swagger/index.html) to test the API.
+5. Navigate to the Swagger UI at [https://localhost:8080/swagger/index.html](https://localhost:8080/swagger/index.html) to test the API.
 
 
 ## Development

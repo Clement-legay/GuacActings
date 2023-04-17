@@ -14,11 +14,12 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
+
 // Add DbContext
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-    options.EnableSensitiveDataLogging();
+    options.EnableSensitiveDataLogging(builder.Environment.IsDevelopment());
 });
 
 builder.Services.AddInjections();
@@ -60,19 +61,19 @@ builder.Services.AddApiVersioning(options =>
     options.DefaultApiVersion = new ApiVersion(1, 0);
 });
 
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(options =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.InjectJavascript("/swagger/api-key.js");
-    });
-}
+    options.InjectJavascript("/swagger/api-key.js");
+});
 
-app.UseErrorHandlingMiddleware();
+// app.UseErrorHandlingMiddleware();
 app.UseApiAuthorization();
 
 app.UseAuthorization();

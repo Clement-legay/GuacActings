@@ -49,6 +49,8 @@
     <Compile Remove="Migrations\20230323182839_JobAndJobOffers.Designer.cs" />
     <Compile Remove="Migrations\20230324144217_JobAndJobOfferUpdate.cs" />
     <Compile Remove="Migrations\20230324144217_JobAndJobOfferUpdate.Designer.cs" />
+    <Compile Remove="publish\**" />
+    <Compile Remove="data\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,6 +58,8 @@
     <EmbeddedResource Remove="Services\JobOfferService\**" />
     <EmbeddedResource Remove="Services\JobService\**" />
     <EmbeddedResource Remove="Services\EnterpriseService\**" />
+    <EmbeddedResource Remove="publish\**" />
+    <EmbeddedResource Remove="data\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -63,6 +67,8 @@
     <None Remove="Services\JobOfferService\**" />
     <None Remove="Services\JobService\**" />
     <None Remove="Services\EnterpriseService\**" />
+    <None Remove="publish\**" />
+    <None Remove="data\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -70,6 +76,21 @@
     <Content Remove="Services\JobOfferService\**" />
     <Content Remove="Services\JobService\**" />
     <Content Remove="Services\EnterpriseService\**" />
+    <Content Remove="publish\**" />
+    <Content Remove="data\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="publish\publish\web.config" />
+    <_ContentIncludedByDefault Remove="publish\web.config" />
+    <_ContentIncludedByDefault Remove="publish\appsettings.Development.json" />
+    <_ContentIncludedByDefault Remove="publish\appsettings.json" />
+    <_ContentIncludedByDefault Remove="publish\guacactings.deps.json" />
+    <_ContentIncludedByDefault Remove="publish\guacactings.runtimeconfig.json" />
+    <_ContentIncludedByDefault Remove="publish\publish\appsettings.Development.json" />
+    <_ContentIncludedByDefault Remove="publish\publish\appsettings.json" />
+    <_ContentIncludedByDefault Remove="publish\publish\guacactings.deps.json" />
+    <_ContentIncludedByDefault Remove="publish\publish\guacactings.runtimeconfig.json" />
   </ItemGroup>
 
 </Project>

@@ -3407,19 +3407,19 @@
     ]
   },
   "packageFolders": {
-    "/root/.nuget/packages/": {}
+    "/Users/clementlegay/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/app/guacactings.csproj",
+      "projectUniqueName": "/Users/clementlegay/Code/dotnet/GuacActings/guacactings.csproj",
       "projectName": "guacactings",
-      "projectPath": "/app/guacactings.csproj",
-      "packagesPath": "/root/.nuget/packages/",
-      "outputPath": "/app/obj/",
+      "projectPath": "/Users/clementlegay/Code/dotnet/GuacActings/guacactings.csproj",
+      "packagesPath": "/Users/clementlegay/.nuget/packages/",
+      "outputPath": "/Users/clementlegay/Code/dotnet/GuacActings/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/root/.nuget/NuGet/NuGet.Config"
+        "/Users/clementlegay/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
@@ -3501,7 +3501,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.202/RuntimeIdentifierGraph.json"
       }
     }
   }

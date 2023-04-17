@@ -36,9 +36,7 @@ public class ApiAuthorization
             return;
         }
         
-        Console.WriteLine(authorizeAttribute.Roles);
-        
-        var authorization = context.Request.Headers["Authorization"].FirstOrDefault();
+        var authorization = context.Request.Headers["Authorization"].FirstOrDefault() ?? null;
         if (!string.IsNullOrEmpty(authorization) && authorization.StartsWith("Bearer "))
         {
             var token = Encoding.UTF8.GetString(Convert.FromBase64String(authorization.Substring("Bearer ".Length).Trim()));
@@ -47,9 +45,10 @@ public class ApiAuthorization
             {
                 context.Response.StatusCode = 401;
                 await context.Response.WriteAsync("Unauthorized");
+                return;
             }
             
-            context.User = claimsPrincipal!;
+            context.User = claimsPrincipal;
 
             if (authorizeAttribute.Roles!.Contains(context.User.FindFirstValue(ClaimTypes.Role)!))
             {
@@ -69,7 +68,7 @@ public class ApiAuthorization
 
         var tokenSplit = token.Split(':');
         token = tokenSplit[0];
-
+        
         if (string.IsNullOrEmpty(token) || !token.Equals(apiKey))
         {
             return null;
