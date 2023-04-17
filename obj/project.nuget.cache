@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "c+Cmr6odTvJkcldZgDGqBusXeOsCnMLHML7vt02br9+5xNG/XAkrIjw/cKpu2WmiNYnEBI7HpYOZ4cKx1kUf7g==",
+  "dgSpecHash": "hvOz5bqgrPeMhTUREKSeA6ZLnoWralbksW3e2AFJ7XL1fo8CRnvjAdQXSEyVOKbL0U3Je/KbC0QO9J5K6YHOAw==",
   "success": true,
-  "projectFilePath": "/Users/clementlegay/Code/dotnet/GuacActings/guacactings.csproj",
+  "projectFilePath": "/Users/clementlegay/Code/dotnet/GuacaFactory/GuacActings/guacactings.csproj",
   "expectedPackageFiles": [
     "/Users/clementlegay/.nuget/packages/azure.core/1.25.0/azure.core.1.25.0.nupkg.sha512",
     "/Users/clementlegay/.nuget/packages/azure.identity/1.7.0/azure.identity.1.7.0.nupkg.sha512",

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/clementlegay/Code/dotnet/GuacActings/guacactings.csproj": {}
+    "/Users/clementlegay/Code/dotnet/GuacaFactory/GuacActings/guacactings.csproj": {}
   },
   "projects": {
-    "/Users/clementlegay/Code/dotnet/GuacActings/guacactings.csproj": {
+    "/Users/clementlegay/Code/dotnet/GuacaFactory/GuacActings/guacactings.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/clementlegay/Code/dotnet/GuacActings/guacactings.csproj",
+        "projectUniqueName": "/Users/clementlegay/Code/dotnet/GuacaFactory/GuacActings/guacactings.csproj",
         "projectName": "guacactings",
-        "projectPath": "/Users/clementlegay/Code/dotnet/GuacActings/guacactings.csproj",
+        "projectPath": "/Users/clementlegay/Code/dotnet/GuacaFactory/GuacActings/guacactings.csproj",
         "packagesPath": "/Users/clementlegay/.nuget/packages/",
-        "outputPath": "/Users/clementlegay/Code/dotnet/GuacActings/obj/",
+        "outputPath": "/Users/clementlegay/Code/dotnet/GuacaFactory/GuacActings/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/clementlegay/.nuget/NuGet/NuGet.Config"

@@ -61,6 +61,15 @@ builder.Services.AddApiVersioning(options =>
     options.DefaultApiVersion = new ApiVersion(1, 0);
 });
 
+builder.Services.AddCors(options =>
+    options.AddDefaultPolicy(cors =>
+    {
+        cors
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    }));
+
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
@@ -72,6 +81,8 @@ app.UseSwaggerUI(options =>
 {
     options.InjectJavascript("/swagger/api-key.js");
 });
+
+app.UseCors();
 
 // app.UseErrorHandlingMiddleware();
 app.UseApiAuthorization();
