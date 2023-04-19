@@ -48,11 +48,14 @@ public class SiteService : ISiteService
         if (adminIdString is null) return null;
         var adminId = int.Parse(adminIdString);
         
+        var pictureUrl = site.Picture is null ? null : await SaveFileToDisk(site.Picture, site.Name!);
+        
         var newSite = new Site()
         {
             Name = site.Name,
             Description = site.Description, 
             AddressId = site.AddressId,
+            PictureUrl = pictureUrl,
             CreatedAt = DateTime.Now,
             UpdatedAt = DateTime.Now,
             CreatedBy = adminId
@@ -69,9 +72,22 @@ public class SiteService : ISiteService
         var adminIdString = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (adminIdString is null) return null;
         var adminId = int.Parse(adminIdString);
-        
+
         var updateSite = await _context.Sites.FindAsync(id);
         if (updateSite is null) return null;
+
+        if (site.Picture is not null)
+        {
+            if (updateSite.PictureUrl is not null)
+            {
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), updateSite.PictureUrl);
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
+            }
+            updateSite.PictureUrl = await SaveFileToDisk(site.Picture, site.Name!);
+        }
 
         updateSite.Name = site.Name ?? updateSite.Name;
         updateSite.Description = site.Description ?? updateSite.Description;
@@ -87,12 +103,35 @@ public class SiteService : ISiteService
     // Delete an enterprise
     public async Task<Site?> DeleteSite(int id)
     {
-        var deleteSite = await _context.Sites.FindAsync(id);
-        if (deleteSite is null) return null;
+        var deleteSite = await _context.Sites.Include(s => s.Employees).FirstOrDefaultAsync(s => s.Id == id);
+        if (deleteSite is null || deleteSite.Employees?.Count > 0) return null;
 
+        if (deleteSite.PictureUrl is not null)
+        {
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), deleteSite.PictureUrl);
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+        }
+        
         var deletedSite = _context.Sites.Remove(deleteSite).Entity;
         await _context.SaveChangesAsync();
         return deletedSite;
+    }
+    
+    private async Task<string> SaveFileToDisk(IFormFile file, string siteName)
+    {
+        var uniqueFileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "files" , siteName, uniqueFileName);
+        
+        Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
+        
+        var stream = new FileStream(filePath, FileMode.Create);
+        await file.CopyToAsync(stream);
+        
+        var link = Path.Combine("files", siteName, uniqueFileName);
+        return link;
     }
 
     #endregion

@@ -44,6 +44,18 @@ public class EmployeeService : IEmployeeService
             .FirstOrDefaultAsync(e => e.Id == id);
         return employee ?? null;
     }
+    
+    // Get employees by name
+    public async Task<ICollection<Employee>?> GetEmployeesByName(string name)
+    {
+        var employees = await _context.Employees
+            .Include(e => e.Address)
+            .Include(e => e.Service)
+            .Include(e => e.Site)
+            .Where(e => e.Firstname!.Contains(name) || e.Lastname!.Contains(name))
+            .ToListAsync();
+        return employees;
+    }
 
     public async Task<Employee?> AddEmployee(EmployeeRegistryDto employee)
     {

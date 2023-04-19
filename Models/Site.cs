@@ -10,9 +10,11 @@ public class Site
     public string? Name { get; set; }
     public string? Description { get; set; }
     
+    public string? PictureUrl { get; set; }
+
     [ForeignKey("AddressId")]
     public int? AddressId { get; set; }
-    
+
     [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Address? Address { get; set; }
     
@@ -37,6 +39,8 @@ public class SiteRegistryDto
     [Required] public string? Name { get; set; }
     [Required] public string? Description { get; set; }
     
+    public IFormFile? Picture { get; set; }
+    
     [ForeignKey("AddressId")]
     public int? AddressId { get; set; }
 }
@@ -45,7 +49,7 @@ public class SiteUpdateDto
 {
     public string? Name { get; set; }
     public string? Description { get; set; }
-    
+    public IFormFile? Picture { get; set; }
     [ForeignKey("AddressId")]
     public int? AddressId { get; set; }
 }

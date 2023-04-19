@@ -55,20 +55,29 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddCors(options =>
+    options.AddPolicy("AllowLocalhostOnly", cors =>
+    {
+        cors.WithOrigins("http://localhost:8000")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    }));
+
 builder.Services.AddApiVersioning(options =>
 {
     options.AssumeDefaultVersionWhenUnspecified = true;
     options.DefaultApiVersion = new ApiVersion(1, 0);
 });
 
+// allow from localhost 8000 and 5177
 builder.Services.AddCors(options =>
-    options.AddDefaultPolicy(cors =>
+    options.AddPolicy("AllowLocalhostOnly", cors =>
     {
-        cors
-            .AllowAnyOrigin()
+        cors.WithOrigins("http://localhost:8000", "http://localhost:5177")
             .AllowAnyHeader()
             .AllowAnyMethod();
     }));
+
 
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -82,9 +91,27 @@ app.UseSwaggerUI(options =>
     options.InjectJavascript("/swagger/api-key.js");
 });
 
-app.UseCors();
+app.Use((context, next) =>
+{
+    var remoteIpAddress = context.Connection.RemoteIpAddress?.ToString() ?? string.Empty;
+    var localIpAddress = context.Connection.LocalIpAddress?.ToString() ?? string.Empty;
+    
+    var segments1 = remoteIpAddress.Split(".");
+    var segments2 = localIpAddress.Split(".");
 
-// app.UseErrorHandlingMiddleware();
+    var remoteIpShortened = string.Join(".", segments1.Take(3));
+    var localIpShortened = string.Join(".", segments2.Take(3));
+
+    if (localIpShortened == remoteIpShortened) return next();
+    
+    context.Response.StatusCode = 403; // Forbidden
+    return Task.CompletedTask;
+
+});
+
+app.UseCors("AllowLocalhostOnly");
+
+app.UseErrorHandlingMiddleware();
 app.UseApiAuthorization();
 
 app.UseAuthorization();
