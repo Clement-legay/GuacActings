@@ -29,7 +29,10 @@ public class SiteService : ISiteService
     // Get all enterprises
     public async Task<IEnumerable<Site>?> GetSites(int page, int rows)
     {
-        var sites = await _context.Sites.ToListAsync();
+        var sites = await _context.Sites
+            .Include(s => s.Employees)
+            .Include(s => s.Address)
+            .ToListAsync();
         var sitesPaged = sites.Skip((page - 1) * rows).Take(rows);
         return sitesPaged;
     }

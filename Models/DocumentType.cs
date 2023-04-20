@@ -16,12 +16,15 @@ public class DocumentType
     public int? UpdatedBy { get; set; }
     
     [ForeignKey("CreatedBy")]
-    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Administrator? CreatedByAdministrator { get; set; }
+    [JsonIgnore]
+    public virtual Administrator? CreatedByAdministrator { get; set; }
     [ForeignKey("UpdatedBy")]
-    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Administrator? UpdatedByAdministrator { get; set; }
-    public ICollection<Document>? Documents { get; set; }
+    [JsonIgnore]
+    public virtual Administrator? UpdatedByAdministrator { get; set; }
+    [JsonIgnore]
+    public virtual ICollection<Document>? Documents { get; set; }
+    [JsonPropertyName("DocumentsCount")]
+    public int DocumentsCount => Documents?.Count ?? 0;
 }
 
 public class DocumentTypeRegistryDto

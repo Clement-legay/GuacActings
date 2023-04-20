@@ -29,7 +29,9 @@ public class ServiceService : IServiceService
     // Get all services
     public async Task<IEnumerable<Service>?> GetServices(int page = 1, int rows = 10)
     {
-        var services = await _context.Services.ToListAsync();
+        var services = await _context.Services
+            .Include(s => s.Employees)
+            .ToListAsync();
         var servicesPaged = services.Skip((page - 1) * rows).Take(rows);
         return servicesPaged;
     }

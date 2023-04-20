@@ -44,6 +44,15 @@ public class DocumentService : IDocumentService
         return document ?? null;
     }
     
+    // Get documents by employee
+    public async Task<IEnumerable<Document>?> GetDocumentsByEmployeeId(int id)
+    {
+        var documents = await _context.Documents
+            .Where(d => d.EmployeeId == id)
+            .ToListAsync();
+        return documents;
+    }
+    
     // Add a document
     public async Task<Document?> AddDocument([FromForm] DocumentRegistryDto document)
     {

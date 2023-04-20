@@ -16,16 +16,15 @@ public class Address
     public int? UpdatedBy { get; set; }
     
     [ForeignKey("CreatedBy")]
-    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Administrator? CreatedByAdministrator { get; set; }
+    [JsonIgnore]
+    public virtual Administrator? CreatedByAdministrator { get; set; }
     [ForeignKey("UpdatedBy")]
-    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Administrator? UpdatedByAdministrator { get; set; }
-    
     [JsonIgnore]
-    public ICollection<Employee>? Employees { get; set; }
+    public virtual Administrator? UpdatedByAdministrator { get; set; }
     [JsonIgnore]
-    public ICollection<Site>? Sites { get; set; }
+    public virtual ICollection<Employee>? Employees { get; set; }
+    [JsonIgnore]
+    public virtual ICollection<Site>? Sites { get; set; }
 }
 
 public class AddressRegistryDto

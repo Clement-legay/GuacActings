@@ -9,19 +9,22 @@ public class Service
     public int Id { get; set; }
     public string? Name { get; set; }
     public string? Description { get; set; }
-    public ICollection<Employee>? Employees { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
     public int? CreatedBy { get; set; }
     public int? UpdatedBy { get; set; }
     
     [ForeignKey("CreatedBy")]
-    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Administrator? CreatedByAdministrator { get; set; }
+    [JsonIgnore]
+    public virtual Administrator? CreatedByAdministrator { get; set; }
     
     [ForeignKey("UpdatedBy")]
-    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Administrator? UpdatedByAdministrator { get; set; }
+    [JsonIgnore]
+    public virtual Administrator? UpdatedByAdministrator { get; set; }
+    [JsonIgnore]
+    public ICollection<Employee>? Employees { get; set; }
+    [JsonPropertyName("EmployeesCount")]
+    public int EmployeesCount => Employees?.Count ?? 0;
 }
 
 public class ServiceRegistryDto

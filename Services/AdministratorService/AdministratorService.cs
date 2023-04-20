@@ -141,7 +141,7 @@ public class AdministratorService : IAdministratorService
     // Login an administrator
     public async Task<Administrator?> LoginAdministrator(AdministratorLoginDto administrator)
     {
-        var administratorToLogin = await _context.Administrators.FirstOrDefaultAsync(a => a.Email == administrator.Email);
+        var administratorToLogin = await _context.Administrators.Include(a => a.Employee).FirstOrDefaultAsync(a => a.Email == administrator.Email);
         if (administratorToLogin == null)
         {
             return null;

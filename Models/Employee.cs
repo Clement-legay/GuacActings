@@ -23,30 +23,39 @@ public class Employee
     public int? UpdatedBy { get; set; }
     
     [ForeignKey("CreatedBy")]
-    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Administrator? CreatedByAdministrator { get; set; }
+    [JsonIgnore]
+    public virtual Administrator? CreatedByAdministrator { get; set; }
     
     [ForeignKey("UpdatedBy")]
-    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Administrator? UpdatedByAdministrator { get; set; }
+    [JsonIgnore]
+    public virtual Administrator? UpdatedByAdministrator { get; set; }
     
     [ForeignKey("AddressId")]
-    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Address? Address { get; set; }
+    public virtual Address? Address { get; set; }
     
     [JsonIgnore]
-    public ICollection<Document>? Documents { get; set; }
+    public virtual ICollection<Document>? Documents { get; set; }
     
     [ForeignKey("ServiceId")]
-    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Service? Service { get; set; }
+    [JsonIgnore]
+    public virtual Service? Service { get; set; }
     
     [ForeignKey("SiteId")]
-    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Site? Site { get; set; }
+    [JsonIgnore]
+    public virtual Site? Site { get; set; }
     
-    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Administrator? Administrator { get; set; }
+    [JsonIgnore]
+    public virtual Administrator? Administrator { get; set; }
+    
+    [JsonPropertyName("PictureUrl")]
+    public string? PictureUrl => Documents?.FirstOrDefault(d => d.Name!.ToLower().Contains("photo"))?.Link ?? null;
+    
+    [JsonPropertyName("SiteName")]
+    public string? SiteName => Site?.Name ?? null;
+    
+    [JsonPropertyName("ServiceName")]
+    public string? ServiceName => Service?.Name ?? null;
+    
 }
 
 public class EmployeeRegistryDto

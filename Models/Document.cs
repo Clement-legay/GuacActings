@@ -19,20 +19,23 @@ public class Document
     public int? UpdatedBy { get; set; }
     
     [ForeignKey("CreatedBy")]
-    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Administrator? CreatedByAdministrator { get; set; }
+    [JsonIgnore]
+    public virtual Administrator? CreatedByAdministrator { get; set; }
     
     [ForeignKey("UpdatedBy")]
-    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Administrator? UpdatedByAdministrator { get; set; }
+    [JsonIgnore]
+    public virtual Administrator? UpdatedByAdministrator { get; set; }
     
     [ForeignKey("DocumentTypeId")]
-    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public DocumentType? DocumentType { get; set; }
+    
+    public virtual DocumentType? DocumentType { get; set; }
     
     [ForeignKey("EmployeeId")]
-    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Employee? Employee { get; set; }
+    [JsonIgnore]
+    public virtual Employee? Employee { get; set; }
+    
+    [JsonPropertyName("DocumentTypeName")]
+    public string? DocumentTypeName => DocumentType?.Name;
 }
 
 public class DocumentRegistryDto

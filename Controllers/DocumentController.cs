@@ -54,6 +54,19 @@ public class DocumentController : ControllerBase
 
         return Ok(result);
     }
+    
+    [HttpGet("employee/{id:int}", Name = "GetDocumentsByEmployeeId")]
+    [Authorize(Roles = "visitor, admin")]
+    public async Task<IActionResult> GetDocumentsByEmployeeId(int id)
+    {
+        var result = await _documentService.GetDocumentsByEmployeeId(id);
+        if (result is null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(result);
+    }
 
     [HttpGet("files/{employee}/{docType}/{fileName}", Name = "GetDocumentFile")]
     [ApiExplorerSettings(IgnoreApi = true)]

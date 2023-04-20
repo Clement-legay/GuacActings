@@ -19,8 +19,11 @@ public class Administrator
     public int? EmployeeId { get; set; }
     
     [ForeignKey("EmployeeId")]
-    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Employee? Employee { get; set; }
+    [JsonIgnore]
+    public virtual Employee? Employee { get; set; }
+    
+    [JsonPropertyName("EmployeeUsername")]
+    public string? EmployeeUsername => Employee?.Username;
 }
 
 public class AdministratorRegistryDto

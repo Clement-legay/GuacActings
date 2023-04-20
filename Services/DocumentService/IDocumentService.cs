@@ -12,6 +12,9 @@ public interface IDocumentService
     // Get document by id
     Task<Document?> GetDocumentById(int id);
 
+    // Get documents by employee
+    Task<IEnumerable<Document>?> GetDocumentsByEmployeeId(int id);
+    
     // Add document
     Task<Document?> AddDocument(DocumentRegistryDto document);
     

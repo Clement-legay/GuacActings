@@ -56,6 +56,45 @@ public class EmployeeController : ControllerBase
 
         return Ok(result);
     }
+    
+    [HttpGet("site/{siteId:int}", Name = "GetEmployeesBySiteId")]
+    [Authorize(Roles = "visitor, admin")]
+    public async Task<IActionResult> GetEmployeesBySiteId(int siteId, int page = 1, int rows = 10)
+    {
+        var result = await _employeeService.GetEmployeesBySiteId(siteId, page, rows);
+        if (result is null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(result);
+    }
+    
+    [HttpGet("service/{serviceId:int}", Name = "GetEmployeesByServiceId")]
+    [Authorize(Roles = "visitor, admin")]
+    public async Task<IActionResult> GetEmployeesByServiceId(int serviceId, int page = 1, int rows = 10)
+    {
+        var result = await _employeeService.GetEmployeesByServiceId(serviceId, page, rows);
+        if (result is null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(result);
+    }
+    
+    [HttpGet("search", Name = "GetEmployeesByName")]
+    [Authorize(Roles = "visitor, admin")]
+    public async Task<IActionResult> GetEmployeesByName(int page = 1, int rows = 10, string name = "")
+    {
+        var result = await _employeeService.GetEmployeesByName(page, rows, name);
+        if (result is null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(result);
+    }
 
     [HttpPost(Name = "AddEmployee")]
     [Authorize(Roles = "admin")]
