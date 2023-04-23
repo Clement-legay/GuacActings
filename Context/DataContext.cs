@@ -46,6 +46,17 @@ public class DataContext : DbContext
             CreatedAt = DateTime.Now,
             UpdatedAt = DateTime.Now
         });
+
+        modelBuilder.Entity<DocumentType>().HasData(new DocumentType()
+            {
+                Id = 1,
+                Name = "Photo",
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                CreatedBy = 1,
+                UpdatedBy = 1
+            }
+        );
         
         for (int i = 0; i < 1004; i++)
         {
@@ -68,6 +79,7 @@ public class DataContext : DbContext
                     Id = 1,
                     Name = "Siège administratif",
                     Description = "Siège administratif de la compagnie",
+                    PictureUrl = "https://loremflickr.com/300/300?lock=5",
                     AddressId = 1,
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
@@ -79,6 +91,7 @@ public class DataContext : DbContext
                     Id = 2,
                     Name = "Site de production",
                     Description = "Usine de production de la compagnie, spécialisée dans les sandwichs",
+                    PictureUrl = "https://loremflickr.com/300/300?lock=4",
                     AddressId = 2,
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
@@ -90,6 +103,7 @@ public class DataContext : DbContext
                 Id = 3,
                 Name = "Site de production",
                 Description = "Usine de production de la compagnie, spécialisée dans les pizzas",
+                PictureUrl = "https://loremflickr.com/300/300?lock=3",
                 AddressId = 3,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
@@ -101,6 +115,7 @@ public class DataContext : DbContext
                 Id = 4,
                 Name = "Site de production",
                 Description = "Usine de production de la compagnie, spécialisée dans les salades",
+                PictureUrl = "https://loremflickr.com/300/300?lock=2",
                 AddressId = 4,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
@@ -112,6 +127,7 @@ public class DataContext : DbContext
                 Id = 5,
                 Name = "Site de production",
                 Description = "Usine de production de la compagnie, spécialisée dans les desserts",
+                PictureUrl = "https://loremflickr.com/300/300?lock=1",
                 AddressId = 5,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
@@ -126,6 +142,7 @@ public class DataContext : DbContext
                 Id = 1,
                 Name = "Comptable",
                 Description = "Comptabilité au sein de l'entreprise",
+                PictureUrl = "https://loremflickr.com/300/300?lock=1",
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
                 CreatedBy = 1,
@@ -136,6 +153,7 @@ public class DataContext : DbContext
                 Id = 2,
                 Name = "Production",
                 Description = "Opérateur de production dans les usines",
+                PictureUrl = "https://loremflickr.com/300/300?lock=2",
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
                 CreatedBy = 1,
@@ -146,6 +164,7 @@ public class DataContext : DbContext
                 Id = 3,
                 Name = "Accueil",
                 Description = "Accueil des clients",
+                PictureUrl = "https://loremflickr.com/300/300?lock=3",
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
                 CreatedBy = 1,
@@ -156,6 +175,7 @@ public class DataContext : DbContext
                 Id = 4,
                 Name = "Informatique",
                 Description = "Maintenance informatique",
+                PictureUrl = "https://loremflickr.com/300/300?lock=4",
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
                 CreatedBy = 1,
@@ -166,6 +186,7 @@ public class DataContext : DbContext
                 Id = 5,
                 Name = "Commercial",
                 Description = "Commercialisation des produits",
+                PictureUrl = "https://loremflickr.com/300/300?lock=5",
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
                 CreatedBy = 1,
@@ -187,6 +208,24 @@ public class DataContext : DbContext
                 BirthDate = new DateTime(Faker.RandomNumber.Next(1970, 2000), Faker.RandomNumber.Next(1, 12), Faker.RandomNumber.Next(1, 28)),
                 ServiceId = Faker.RandomNumber.Next(1, 5),
                 SiteId = Faker.RandomNumber.Next(1, 5),
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                CreatedBy = 1,
+                UpdatedBy = 1
+            });
+        }
+        
+        for (int i = 0; i < 1004; i++)
+        {
+            modelBuilder.Entity<Document>().HasData(new Document
+            {
+                Id = i + 1,
+                Name = "Photo de profil",
+                Link = $"https://loremflickr.com/300/300?lock={i}",
+                Description = "Photo de profil de l'employé",
+                EmployeeId = i + 1,
+                DocumentTypeId = 1,
+                ContentType = "image/jpeg",
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
                 CreatedBy = 1,

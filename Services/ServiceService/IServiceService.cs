@@ -10,6 +10,9 @@ public interface IServiceService
     // Get a service by id
     Task<Service?> GetServiceById(int id);
     
+    // Get service by link
+    Task<Service?> GetServiceByLink(string serviceName, string fileName);
+    
     // Add a service
     Task<Service?> AddService(ServiceRegistryDto service);
     

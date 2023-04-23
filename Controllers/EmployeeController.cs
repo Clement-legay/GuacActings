@@ -59,9 +59,9 @@ public class EmployeeController : ControllerBase
     
     [HttpGet("site/{siteId:int}", Name = "GetEmployeesBySiteId")]
     [Authorize(Roles = "visitor, admin")]
-    public async Task<IActionResult> GetEmployeesBySiteId(int siteId, int page = 1, int rows = 10)
+    public async Task<IActionResult> GetEmployeesBySiteId(int siteId, string search = "", int page = 1, int rows = 10)
     {
-        var result = await _employeeService.GetEmployeesBySiteId(siteId, page, rows);
+        var result = await _employeeService.GetEmployeesBySiteId(siteId, search, page, rows);
         if (result is null)
         {
             return BadRequest();
@@ -72,9 +72,9 @@ public class EmployeeController : ControllerBase
     
     [HttpGet("service/{serviceId:int}", Name = "GetEmployeesByServiceId")]
     [Authorize(Roles = "visitor, admin")]
-    public async Task<IActionResult> GetEmployeesByServiceId(int serviceId, int page = 1, int rows = 10)
+    public async Task<IActionResult> GetEmployeesByServiceId(int serviceId, string search = "", int page = 1, int rows = 10)
     {
-        var result = await _employeeService.GetEmployeesByServiceId(serviceId, page, rows);
+        var result = await _employeeService.GetEmployeesByServiceId(serviceId, search, page, rows);
         if (result is null)
         {
             return BadRequest();

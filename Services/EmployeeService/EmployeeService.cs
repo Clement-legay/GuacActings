@@ -53,7 +53,7 @@ public class EmployeeService : IEmployeeService
     }
     
     // Get employees by site id
-    public async Task<IEnumerable<Employee>?> GetEmployeesBySiteId(int siteId, int page, int rows)
+    public async Task<IEnumerable<Employee>?> GetEmployeesBySiteId(int siteId, string search, int page, int rows)
     {
         var employees = await _context.Employees
             .Include(e => e.Address)
@@ -61,13 +61,14 @@ public class EmployeeService : IEmployeeService
             .Include(e => e.Service)
             .Include(e => e.Documents)
             .Where(e => e.SiteId == siteId)
+            .Where(e => e.Firstname!.Contains(search) || e.Lastname!.Contains(search))
             .ToListAsync();
         var employeesPaged = employees.Skip((page - 1) * rows).Take(rows);
         return employeesPaged;
     }
     
     // Get employees by service id
-    public async Task<IEnumerable<Employee>?> GetEmployeesByServiceId(int serviceId, int page, int rows)
+    public async Task<IEnumerable<Employee>?> GetEmployeesByServiceId(int serviceId, string search, int page, int rows)
     {
         var employees = await _context.Employees
             .Include(e => e.Address)
@@ -75,6 +76,7 @@ public class EmployeeService : IEmployeeService
             .Include(e => e.Service)
             .Include(e => e.Documents)
             .Where(e => e.ServiceId == serviceId)
+            .Where(e => e.Firstname!.Contains(search) || e.Lastname!.Contains(search))
             .ToListAsync();
         var employeesPaged = employees.Skip((page - 1) * rows).Take(rows);
         return employeesPaged;

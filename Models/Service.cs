@@ -9,6 +9,7 @@ public class Service
     public int Id { get; set; }
     public string? Name { get; set; }
     public string? Description { get; set; }
+    public string? PictureUrl { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
     public int? CreatedBy { get; set; }
@@ -31,10 +32,14 @@ public class ServiceRegistryDto
 {
     [Required] public string? Name { get; set; }
     [Required] public string? Description { get; set; }
+    
+    public IFormFile? Picture { get; set; }
 }
 
 public class ServiceUpdateDto
 {
     public string? Name { get; set; }
     public string? Description { get; set; }
+    
+    public IFormFile? Picture { get; set; }
 }

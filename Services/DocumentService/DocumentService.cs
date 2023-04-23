@@ -4,6 +4,7 @@ using Azure;
 using guacactings.Context;
 using guacactings.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 
 namespace guacactings.Services;
@@ -205,6 +206,14 @@ public class DocumentService : IDocumentService
 
         Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
 
+        var contentType = file.ContentType;
+        if (contentType == null)
+        {
+            var provider = new FileExtensionContentTypeProvider();
+            provider.TryGetContentType(file.FileName, out var contentTypeProvided);
+            contentType = contentTypeProvided;
+        }
+        
         var stream = new FileStream(filePath, FileMode.Create);
         await file.CopyToAsync(stream);
         
@@ -213,7 +222,7 @@ public class DocumentService : IDocumentService
         var newDocument = new Document {
             Name = fileName,
             Link = link,
-            ContentType = file.ContentType,
+            ContentType = contentType,
             Description = document.Description,
             DocumentTypeId = document.DocumentTypeId,
             EmployeeId = document.EmployeeId,

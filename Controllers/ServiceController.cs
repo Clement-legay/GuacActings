@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+using System.Net.Mime;
 using guacactings.Models;
 using guacactings.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -57,6 +59,28 @@ public class ServiceController : ControllerBase
         return Ok(result);
     }
     
+    [HttpGet("files/{serviceName}/{fileName}", Name = "GetServicePicture")]
+    [ApiExplorerSettings(IgnoreApi = true)]
+    [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.String; size: 112MB")]
+    public async Task<IActionResult> GetDocumentFile(string serviceName, string fileName)
+    {
+        var serviceByLink = await _serviceService.GetServiceByLink(serviceName, fileName);
+        if (serviceByLink is null)
+        {
+            return BadRequest("Image not found");
+        }
+        
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), serviceByLink.PictureUrl!);
+        var contentDisposition = new ContentDisposition
+        {
+            Inline = true,
+            FileName = serviceName + "." + serviceByLink.PictureUrl!.Split('.').Last()
+        };
+        Response.Headers.Add("Content-Disposition", contentDisposition.ToString());
+        HttpContext.Response.Headers["Title"] = serviceName;
+        return PhysicalFile(filePath, $"image/{serviceByLink.PictureUrl!.Split('.').Last()}");
+    }
+    
     [HttpPost(Name = "AddService")]
     [Authorize(Roles = "admin")]
     public async Task<IActionResult> AddService([FromForm] ServiceRegistryDto service)
@@ -70,7 +94,7 @@ public class ServiceController : ControllerBase
         return Ok(result);
     }
     
-    [HttpPut("{id:int}", Name = "UpdateService")]
+    [HttpPut("{id:int}/update", Name = "UpdateService")]
     [Authorize(Roles = "admin")]
     public async Task<IActionResult> UpdateService(int id, [FromForm] ServiceUpdateDto service)
     {
@@ -83,7 +107,7 @@ public class ServiceController : ControllerBase
         return Ok(result);
     }
     
-    [HttpDelete("{id:int}", Name = "DeleteService")]
+    [HttpDelete("{id:int}/delete", Name = "DeleteService")]
     [Authorize(Roles = "admin")]
     public async Task<IActionResult> DeleteService(int id)
     {

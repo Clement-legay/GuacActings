@@ -103,7 +103,7 @@ public class DocumentController : ControllerBase
         return Ok(result);
     }
     
-    [HttpPut("{id:int}", Name = "UpdateDocument")]
+    [HttpPut("{id:int}/update", Name = "UpdateDocument")]
     [Authorize(Roles = "admin")]
     public async Task<IActionResult> UpdateDocument([FromForm] DocumentUpdateDto document, int id)
     {
@@ -116,7 +116,7 @@ public class DocumentController : ControllerBase
         return Ok(result);
     }
     
-    [HttpDelete("{id:int}", Name = "DeleteDocument")]
+    [HttpDelete("{id:int}/delete", Name = "DeleteDocument")]
     [Authorize(Roles = "admin")]
     public async Task<IActionResult> DeleteDocument(int id)
     {

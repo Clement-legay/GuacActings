@@ -10,6 +10,9 @@ public interface ISiteService
     // Get site by id
     Task<Site?> GetSiteById(int id);
     
+    // Get Site image File
+    Task<Site?> GetSiteByLink(string siteName, string fileName);
+    
     // Add a new Site
     Task<Site?> AddSite(SiteRegistryDto site);
     

@@ -8,8 +8,8 @@ public interface IEmployeeService
     Task<IEnumerable<Employee>> GetEmployees(int page, int rows);
     // Get an employee by id
     Task<Employee?> GetEmployeeById(int id);
-    Task<IEnumerable<Employee>?> GetEmployeesBySiteId(int siteId, int page = 1, int rows = 10);
-    Task<IEnumerable<Employee>?> GetEmployeesByServiceId(int serviceId, int page = 1, int rows = 10);
+    Task<IEnumerable<Employee>?> GetEmployeesBySiteId(int siteId, string search ="", int page = 1, int rows = 10);
+    Task<IEnumerable<Employee>?> GetEmployeesByServiceId(int serviceId, string search ="", int page = 1, int rows = 10);
     Task<IEnumerable<Employee>?> GetEmployeesByName(int page = 1, int rows = 10, string name = "");
     // Create a new employee
     Task<Employee?> AddEmployee(EmployeeRegistryDto employee);

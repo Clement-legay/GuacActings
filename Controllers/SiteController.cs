@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+using System.Net.Mime;
 using guacactings.Models;
 using guacactings.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -22,7 +24,7 @@ public class SiteController : ControllerBase
     {
         _siteService = siteService;
     }
-    
+
     #endregion
 
     #region Methods
@@ -39,7 +41,7 @@ public class SiteController : ControllerBase
 
         return Ok(result);
     }
-    
+
     [HttpGet("{id:int}", Name = "GetSiteById")]
     [Authorize(Roles = "visitor, admin")]
     public async Task<IActionResult> GetSiteById(int id)
@@ -51,6 +53,28 @@ public class SiteController : ControllerBase
         }
 
         return Ok(result);
+    }
+
+    [HttpGet("files/{siteName}/{fileName}", Name = "GetSitePicture")]
+    [ApiExplorerSettings(IgnoreApi = true)]
+    [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.String; size: 112MB")]
+    public async Task<IActionResult> GetDocumentFile(string siteName, string fileName)
+    {
+        var siteByLink = await _siteService.GetSiteByLink(siteName, fileName);
+        if (siteByLink is null)
+        {
+            return BadRequest("Image not found");
+        }
+        
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), siteByLink.PictureUrl!);
+        var contentDisposition = new ContentDisposition
+        {
+            Inline = true,
+            FileName = siteName + "." + siteByLink.PictureUrl!.Split('.').Last()
+        };
+        Response.Headers.Add("Content-Disposition", contentDisposition.ToString());
+        HttpContext.Response.Headers["Title"] = siteName;
+        return PhysicalFile(filePath, $"image/{siteByLink.PictureUrl!.Split('.').Last()}");
     }
     
     [HttpPost(Name = "AddSite")]
