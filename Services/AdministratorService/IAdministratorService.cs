@@ -22,6 +22,9 @@ public interface IAdministratorService
     // Delete an administrator
     Task<Administrator?> DeleteAdministrator(int id);
     
+    // Check administrator authenticity
+    Task<bool> CheckAdministratorAuthenticity(Administrator administrator);
+    
     // Login an administrator
     Task<Administrator?> LoginAdministrator(AdministratorLoginDto administrator);
     

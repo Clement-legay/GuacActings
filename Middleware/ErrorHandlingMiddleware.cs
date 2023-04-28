@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Text.Json;
 
@@ -22,6 +23,7 @@ public class ErrorHandlingMiddleware
 
     #region Methods
 
+    [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.String; size: 112MB")]
     public async Task Invoke(HttpContext context)
     {
         try

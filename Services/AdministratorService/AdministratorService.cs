@@ -137,6 +137,18 @@ public class AdministratorService : IAdministratorService
 
         return tokenToBase64;
     }
+    
+    // Check administrator authenticity
+    public async Task<bool> CheckAdministratorAuthenticity(Administrator administrator)
+    {
+        var administratorToCheck = await _context.Administrators
+            .Include(a => a.Employee)
+            .FirstOrDefaultAsync(a => a.Id == administrator.Id);
+        
+        if (administratorToCheck == null) return false;
+        
+        return administratorToCheck.EmployeeId == administrator.EmployeeId;
+    }
 
     // Login an administrator
     public async Task<Administrator?> LoginAdministrator(AdministratorLoginDto administrator)

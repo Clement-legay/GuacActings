@@ -59,9 +59,9 @@ public class EmployeeController : ControllerBase
     
     [HttpGet("site/{siteId:int}", Name = "GetEmployeesBySiteId")]
     [Authorize(Roles = "visitor, admin")]
-    public async Task<IActionResult> GetEmployeesBySiteId(int siteId, string search = "", int page = 1, int rows = 10)
+    public async Task<IActionResult> GetEmployeesBySiteId(int siteId, int? serviceId = null, string search = "", int page = 1, int rows = 10)
     {
-        var result = await _employeeService.GetEmployeesBySiteId(siteId, search, page, rows);
+        var result = await _employeeService.GetEmployeesBySiteId(siteId, search, serviceId, page, rows);
         if (result is null)
         {
             return BadRequest();
@@ -72,9 +72,9 @@ public class EmployeeController : ControllerBase
     
     [HttpGet("service/{serviceId:int}", Name = "GetEmployeesByServiceId")]
     [Authorize(Roles = "visitor, admin")]
-    public async Task<IActionResult> GetEmployeesByServiceId(int serviceId, string search = "", int page = 1, int rows = 10)
+    public async Task<IActionResult> GetEmployeesByServiceId(int serviceId, int? siteId = null, string search = "", int page = 1, int rows = 10)
     {
-        var result = await _employeeService.GetEmployeesByServiceId(serviceId, search, page, rows);
+        var result = await _employeeService.GetEmployeesByServiceId(serviceId, search, siteId, page, rows);
         if (result is null)
         {
             return BadRequest();
@@ -85,9 +85,9 @@ public class EmployeeController : ControllerBase
     
     [HttpGet("search", Name = "GetEmployeesByName")]
     [Authorize(Roles = "visitor, admin")]
-    public async Task<IActionResult> GetEmployeesByName(int page = 1, int rows = 10, string name = "")
+    public async Task<IActionResult> GetEmployeesByName(int? siteId = null, int? serviceId = null, int page = 1, int rows = 10, string name = "")
     {
-        var result = await _employeeService.GetEmployeesByName(page, rows, name);
+        var result = await _employeeService.GetEmployeesByName(serviceId, siteId, page, rows, name);
         if (result is null)
         {
             return BadRequest();

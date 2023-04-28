@@ -62,6 +62,15 @@ public class AdministratorController : ControllerBase
         return Ok(newAdministrator);
     }
     
+    [HttpPost("check", Name = "CheckAdministratorAuthenticity")]
+    [Authorize(Roles = "visitor, admin")]
+    public async Task<IActionResult> CheckAdministratorAuthenticity(Administrator administrator)
+    {
+        var administratorToCheck = await _administratorService.CheckAdministratorAuthenticity(administrator);
+        
+        return Ok(administratorToCheck);
+    }
+    
     [HttpPost("login", Name = "LoginAdministrator")]
     [Authorize(Roles = "visitor")]
     public async Task<IActionResult> LoginAdministrator([FromForm] AdministratorLoginDto administrator)
@@ -113,7 +122,7 @@ public class AdministratorController : ControllerBase
         
         return Ok(updatedAdministrator);
     }
-    
+
     [HttpDelete("{id:int}/delete", Name = "DeleteAdministrator")]
     [Authorize(Roles = "admin")]
     public async Task<IActionResult> DeleteAdministrator(int id)

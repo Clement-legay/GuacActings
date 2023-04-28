@@ -90,11 +90,11 @@ public class DocumentService : IDocumentService
         if (oldType is null) return null;
 
         // Get the current path of the document
-        var oldPath = Path.Combine(Directory.GetCurrentDirectory(), updateDocument.Link!);
+        var oldPath = updateDocument.Link!.StartsWith("http") ? updateDocument.Link : Path.Combine(Directory.GetCurrentDirectory(), updateDocument.Link!);
         
         updateDocument.Name = document.Name ?? updateDocument.Name;
         updateDocument.Description = document.Description ?? updateDocument.Description;
-
+        
         if (document.File is not null)
         {
             // Format the new document to the document dto
@@ -111,15 +111,14 @@ public class DocumentService : IDocumentService
             var newPath = await SaveFileToDisk(newDocument);
             if (newPath is null) return null;
 
-            // Delete the old document
-            File.Delete(oldPath);
+            if (!oldPath.StartsWith("http")) File.Delete(oldPath);
             oldPath = Path.Combine(Directory.GetCurrentDirectory(), newPath.Link!);
             
             //update the document
             updateDocument.Link = newPath.Link;
             updateDocument.ContentType = newPath.ContentType;
         }
-        
+
         if (document.DocumentTypeId is not null && updateDocument.DocumentTypeId != document.DocumentTypeId)
         {
             // Get the new type of the document
@@ -137,7 +136,10 @@ public class DocumentService : IDocumentService
             }
 
             // Move the file to the new directory
-            File.Move(oldPath, newPath);
+            if (File.Exists(oldPath))
+            {
+                File.Move(oldPath, newPath);
+            }
 
             // Update the document
             updateDocument.DocumentTypeId = document.DocumentTypeId;

@@ -79,9 +79,6 @@ public class DocumentTypeService : IDocumentTypeService
         {
             var oldDirectoryName = updateDocumentType.Name;
             var newDirectoryName = documentType.Name;
-
-            Console.WriteLine(oldDirectoryName);
-            Console.WriteLine(newDirectoryName);
             
             if (oldDirectoryName != newDirectoryName)
             {
@@ -92,14 +89,8 @@ public class DocumentTypeService : IDocumentTypeService
                     var oldPath = document.Link;
                     var newPath = oldPath!.Replace(oldDirectoryName!, newDirectoryName);
                     
-                    Console.WriteLine(oldPath);
-                    Console.WriteLine(newPath);
-                    
                     var oldDirectory = Path.Combine(Directory.GetCurrentDirectory(), oldPath);
                     var newDirectory = Path.Combine(Directory.GetCurrentDirectory(), newPath);
-                    
-                    Console.WriteLine(oldDirectory);
-                    Console.WriteLine(newDirectory);
                     
                     // test directory exists from path
                     if (Directory.Exists(Path.GetDirectoryName(oldDirectory)))
